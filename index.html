@@ -2,78 +2,78 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
 <title>你是哪种吃货？</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(180deg,#fff7ed 0%,#fef3c7 30%,#fde68a 65%,#f59e0b 100%);background-attachment:fixed;color:#1c1917;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
-.container{max-width:440px;margin:0 auto;padding:16px;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+html,body{width:100%;min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(180deg,#fef9f0 0%,#fdf2e9 40%,#fce7d4 100%);background-attachment:fixed;color:#44403c;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+.container{max-width:440px;margin:0 auto;padding:14px;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
 
 /* Cards */
-.card{background:rgba(255,255,255,.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:28px;padding:32px 22px;width:100%;box-shadow:0 8px 40px rgba(146,64,14,.10)}
-.result-card{background:rgba(255,255,255,.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:28px;padding:28px 20px;width:100%;box-shadow:0 8px 40px rgba(146,64,14,.12);text-align:center}
+.card{background:rgba(255,255,255,.92);border-radius:24px;padding:28px 20px;width:100%;box-shadow:0 4px 24px rgba(180,120,60,.08)}
+.result-card{background:rgba(255,255,255,.92);border-radius:24px;padding:24px 18px;width:100%;box-shadow:0 4px 24px rgba(180,120,60,.10);text-align:center}
 
 /* Typography */
-.title{font-size:30px;font-weight:900;text-align:center;background:linear-gradient(135deg,#ea580c,#dc2626,#c026d3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:1px}
-.subtitle{font-size:14px;color:#78716c;text-align:center;margin-top:6px}
-.emoji-hero{font-size:72px;text-align:center;margin:16px 0;animation:float 2.5s ease-in-out infinite}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.title{font-size:28px;font-weight:900;text-align:center;background:linear-gradient(135deg,#d97706,#e11d48,#9333ea);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:1px;line-height:1.3}
+.subtitle{font-size:13px;color:#a8a29e;text-align:center;margin-top:5px}
+.emoji-hero{font-size:64px;text-align:center;margin:14px 0;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 
 /* Buttons */
-.btn{display:block;width:100%;padding:15px 20px;border:none;border-radius:18px;font-size:17px;font-weight:700;cursor:pointer;transition:all .2s ease;-webkit-tap-highlight-color:transparent;text-align:center;position:relative;overflow:hidden}
-.btn:active{transform:scale(.95)}
-.btn-primary{background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;box-shadow:0 4px 18px rgba(234,88,12,.30);margin-top:20px}
-.btn-share{background:linear-gradient(135deg,#10b981,#059669);color:#fff;box-shadow:0 4px 18px rgba(16,185,129,.30)}
-.btn-restart{background:#f5f5f4;color:#44403c}
-.btn-group{display:flex;gap:10px;margin-top:20px}
+.btn{display:block;width:100%;padding:14px 18px;border:none;border-radius:16px;font-size:16px;font-weight:700;cursor:pointer;transition:all .2s ease;-webkit-tap-highlight-color:transparent;text-align:center;position:relative;overflow:hidden}
+.btn:active{transform:scale(.96)}
+.btn-primary{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;box-shadow:0 4px 16px rgba(217,119,6,.25);margin-top:18px}
+.btn-share{background:linear-gradient(135deg,#10b981,#059669);color:#fff;box-shadow:0 4px 16px rgba(16,185,129,.25)}
+.btn-restart{background:#f5f5f4;color:#57534e}
+.btn-group{display:flex;gap:8px;margin-top:18px}
 .btn-group .btn{flex:1;margin-top:0}
 
 /* Progress */
-.progress-wrap{width:100%;padding:16px 0 10px;display:none}
-.progress-bg{width:100%;height:8px;background:#e7e5e4;border-radius:4px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,#f97316,#ea580c);border-radius:4px;transition:width .4s ease}
-.progress-text{font-size:11px;color:#a8a29e;text-align:center;margin-top:6px;font-weight:600}
+.progress-wrap{width:100%;padding:14px 0 8px;display:none}
+.progress-bg{width:100%;height:6px;background:#e7e5e4;border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#f59e0b,#e11d48);border-radius:3px;transition:width .4s ease}
+.progress-text{font-size:10px;color:#a8a29e;text-align:center;margin-top:5px;font-weight:600}
 
 /* Questions */
-.q-num{font-size:12px;color:#f97316;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
-.q-text{font-size:19px;font-weight:700;line-height:1.5;margin-bottom:22px;color:#1c1917}
-.options{display:flex;flex-direction:column;gap:10px}
-.opt-btn{display:flex;align-items:center;gap:12px;padding:14px 18px;border:2px solid #e7e5e4;border-radius:16px;background:#fff;font-size:15px;cursor:pointer;transition:all .2s ease;text-align:left;color:#44403c;-webkit-tap-highlight-color:transparent}
+.q-num{font-size:11px;color:#d97706;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px}
+.q-text{font-size:17px;font-weight:700;line-height:1.5;margin-bottom:18px;color:#292524}
+.options{display:flex;flex-direction:column;gap:8px}
+.opt-btn{display:flex;align-items:center;gap:10px;padding:12px 14px;border:2px solid #e7e5e4;border-radius:14px;background:#fff;font-size:14px;cursor:pointer;transition:all .2s ease;text-align:left;color:#44403c;-webkit-tap-highlight-color:transparent}
 .opt-btn:active{transform:scale(.97)}
-.opt-btn.selected{border-color:#f97316;background:#fff7ed;box-shadow:0 0 0 3px rgba(249,115,22,.12)}
-.opt-emoji{font-size:26px;flex-shrink:0}
+.opt-btn.selected{border-color:#f59e0b;background:#fffbeb;box-shadow:0 0 0 3px rgba(245,158,11,.10)}
+.opt-emoji{font-size:24px;flex-shrink:0}
 .opt-label{line-height:1.4}
 
 /* Result */
-.res-avatar{margin:0 auto 12px;position:relative}
-.res-avatar svg{width:140px;height:140px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.08))}
-.res-name{font-size:30px;font-weight:900;background:linear-gradient(135deg,#ea580c,#c026d3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.res-tag{display:inline-block;background:#fef3c7;color:#92400e;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700;margin:8px 0 14px}
-.res-desc{font-size:15px;line-height:1.8;color:#44403c;text-align:left;background:#fafaf9;border-radius:16px;padding:18px 16px;margin:14px 0;border-left:4px solid #f97316}
-.res-cuisines{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:14px 0}
-.cuisine-tag{background:#fff7ed;color:#ea580c;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid #fed7aa}
-.res-quote{font-size:14px;font-style:italic;color:#78716c;margin:12px 0;line-height:1.6}
+.res-avatar{margin:0 auto 10px;position:relative}
+.res-avatar svg{width:130px;height:130px;filter:drop-shadow(0 3px 10px rgba(0,0,0,.06))}
+.res-name{font-size:26px;font-weight:900;background:linear-gradient(135deg,#d97706,#e11d48);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.res-tag{display:inline-block;background:#fef3c7;color:#92400e;padding:3px 12px;border-radius:16px;font-size:11px;font-weight:700;margin:6px 0 12px}
+.res-desc{font-size:14px;line-height:1.8;color:#44403c;text-align:left;background:#fefbf5;border-radius:14px;padding:16px 14px;margin:12px 0;border-left:4px solid #f59e0b}
+.res-cuisines{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin:12px 0}
+.cuisine-tag{background:#fffbeb;color:#d97706;padding:4px 10px;border-radius:16px;font-size:11px;font-weight:600;border:1px solid #fde68a}
+.res-quote{font-size:13px;font-style:italic;color:#78716c;margin:10px 0;line-height:1.6}
 
 /* Loading */
-.loading-wrap{display:flex;flex-direction:column;align-items:center;gap:18px}
-.spinner{width:44px;height:44px;border:4px solid #fef3c7;border-top:4px solid #f97316;border-radius:50%;animation:spin .8s linear infinite}
+.loading-wrap{display:flex;flex-direction:column;align-items:center;gap:16px}
+.spinner{width:40px;height:40px;border:4px solid #fef3c7;border-top:4px solid #f59e0b;border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.loading-text{font-size:15px;color:#78716c;font-weight:500}
-.loading-emoji{font-size:44px;animation:float 1.5s ease-in-out infinite}
+.loading-text{font-size:14px;color:#78716c;font-weight:500}
+.loading-emoji{font-size:40px;animation:float 1.5s ease-in-out infinite}
 
 /* Toast */
-.toast{position:fixed;bottom:50px;left:50%;transform:translateX(-50%) translateY(120px);background:#1c1917;color:#fff;padding:12px 26px;border-radius:14px;font-size:14px;font-weight:500;z-index:999;transition:transform .3s ease;white-space:nowrap}
+.toast{position:fixed;bottom:50px;left:50%;transform:translateX(-50%) translateY(120px);background:#1c1917;color:#fff;padding:10px 22px;border-radius:12px;font-size:13px;font-weight:500;z-index:999;transition:transform .3s ease;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0)}
 
 /* Screen system */
 .screen{display:none;width:100%;flex-direction:column;align-items:center}
 .screen.active{display:flex}
 .fadeIn{animation:fadeIn .35s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
 /* Flags banner */
-.flag-banner{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin:12px 0}
-.flag-badge{background:#fff;border:2px solid #fef3c7;border-radius:14px;padding:4px 10px;font-size:13px;font-weight:600}
+.flag-banner{display:flex;justify-content:center;gap:5px;flex-wrap:wrap;margin:10px 0}
+.flag-badge{background:#fff;border:1.5px solid #fde68a;border-radius:12px;padding:3px 8px;font-size:12px;font-weight:600}
 
 /* Confetti */
 .confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:99}
@@ -81,11 +81,11 @@ html,body{width:100%;min-height:100vh;font-family:-apple-system,BlinkMacSystemFo
 @keyframes confettiFall{0%{opacity:1;transform:translateY(-20px) rotate(0)}100%{opacity:0;transform:translateY(100vh) rotate(720deg)}}
 
 @media(max-width:380px){
-  .container{padding:10px}
-  .card,.result-card{padding:24px 14px}
-  .title{font-size:26px}
-  .q-text{font-size:17px}
-  .opt-btn{padding:12px 14px;font-size:14px}
+  .container{padding:8px}
+  .card,.result-card{padding:20px 12px}
+  .title{font-size:24px}
+  .q-text{font-size:15px}
+  .opt-btn{padding:10px 12px;font-size:13px}
 }
 </style>
 </head>
@@ -98,11 +98,11 @@ html,body{width:100%;min-height:100vh;font-family:-apple-system,BlinkMacSystemFo
     <div class="card fadeIn">
       <div class="emoji-hero">🍽️</div>
       <div class="title">你是哪种吃货？</div>
-      <div class="subtitle">16道灵魂拷问 · 24种吃货人格</div>
-      <div class="subtitle" style="color:#d97706">中外菜系混搭 · 测测你属于哪一种 🧬</div>
+      <div class="subtitle">16道灵魂拷问 · 28种吃货人格</div>
+      <div class="subtitle" style="color:#d97706">测测你属于哪一种 🧬</div>
       <div class="flag-banner">
         <span class="flag-badge">🌶️ 辣</span><span class="flag-badge">🍣 鲜</span><span class="flag-badge">🍖 肉</span>
-        <span class="flag-badge">🍜 面</span><span class="flag-badge">🍰 甜</span><span class="flag-badge">🌏 混</span>
+        <span class="flag-badge">🍜 面</span><span class="flag-badge">🍰 甜</span><span class="flag-badge">🌏 混</span><span class="flag-badge">🥗 简</span>
       </div>
       <button class="btn btn-primary" onclick="start()">开始测试 🍜</button>
     </div>
@@ -139,296 +139,311 @@ html,body{width:100%;min-height:100vh;font-family:-apple-system,BlinkMacSystemFo
 <div class="confetti-wrap" id="confetti"></div>
 
 <script>
-// ============ 6 TYPES × 4 PERSONALITIES = 24 COMBOS ============
+// =========== 7 TYPES × 4 PERSONALITIES = 28 COMBOS ===========
 const TYPE_META = {
-  spicy: {name:'🌶️ 辣魂觉醒', emoji:'🌶️', color:'#ef4444', bg:'#fef2f2', accent:'#dc2626', icon:'🌶️'},
+  spicy: {name:'🌶️ 辣魂觉醒', emoji:'🌶️', color:'#ef4444', bg:'#fff1f2', accent:'#dc2626', icon:'🌶️'},
   fresh: {name:'🍣 鲜味至臻', emoji:'🍣', color:'#06b6d4', bg:'#ecfeff', accent:'#0891b2', icon:'🍣'},
   meat:  {name:'🍖 肉食暴君', emoji:'🍖', color:'#d97706', bg:'#fffbeb', accent:'#b45309', icon:'🍖'},
-  carb:  {name:'🍜 碳水教父', emoji:'🍜', color:'#eab308', bg:'#fefce8', accent:'#ca8a04', icon:'🍜'},
+  carb:  {name:'🍜 碳水教父', emoji:'🍜', color:'#ca8a04', bg:'#fefce8', accent:'#a16207', icon:'🍜'},
   sweet: {name:'🍰 甜味至上', emoji:'🍰', color:'#ec4899', bg:'#fdf2f8', accent:'#db2777', icon:'🍰'},
-  globe: {name:'🌏 世界食者', emoji:'🌏', color:'#8b5cf6', bg:'#f5f3ff', accent:'#7c3aed', icon:'🌍'}
+  globe: {name:'🌏 世界食者', emoji:'🌍', color:'#8b5cf6', bg:'#f5f3ff', accent:'#7c3aed', icon:'🌍'},
+  easy:  {name:'🥗 佛系淡食', emoji:'🥗', color:'#84cc16', bg:'#f7fee7', accent:'#65a30d', icon:'🥗'}
 };
 const PERS_META = {
   radical:{name:'激进型', emoji:'⚡', desc:'走极端、不妥协、全速前进'},
   scholar:{name:'学术型', emoji:'🧐', desc:'研究党、数据控、知其所以然'},
   social: {name:'社交型', emoji:'🎉', desc:'吃是社交货币，独乐乐不如众乐乐'},
-  zen:    {name:'佛系型', emoji:'😌', desc:'来都来了，吃就完了，都行'}
+  zen:    {name:'随缘型', emoji:'😌', desc:'来都来了，吃就完了，都行'}
 };
 
-// 24 results: key = "type_pers"
+// 28 results
 const RESULTS = {
   spicy_radical: {
-    title:'辣椒特种兵', tag:'川湘驻外武官', cuisines:'川菜🌶️ 湘菜🔥 墨西哥🇲🇽 泰国冬阴功🍜 印度咖喱🍛',
-    desc:'你的人生没有"微辣"这个选项。你的背包里永远装着便携辣酱，去日本旅游最大的文化冲击是拉面选了"极辛"之后毫无感觉。<br><br>朋友说你是一颗行走的朝天椒——走到哪里就辣到哪里。医生建议你少吃辣，你反问："川渝地区胃癌发病率反而更低，这个您知道吧？"<br><br>你的终极梦想：去墨西哥亡灵节，跟当地人比拼谁更能扛魔鬼椒。',
+    title:'辣椒特种兵', tag:'川湘驻外武官', cuisines:'川菜🌶️ 湘菜🔥 墨西哥🌮 泰国冬阴功🍜',
+    desc:'你的人生没有"微辣"这个选项。你的背包里永远装着便携辣酱，日本拉面选了"极辛"毫无感觉。<br><br>医生劝你少吃辣，你反问："川渝胃癌发病率更低，这您知道吧？"<br><br>终极梦想：去墨西哥亡灵节，跟当地人比拼魔鬼椒。',
     quote:'"不放辣椒的菜，不配叫菜。"'
   },
   spicy_scholar: {
-    title:'香辛料研究员', tag:'辣椒风味图谱作者', cuisines:'川菜🌶️ 湘菜🔥 贵州酸辣🥘 云南蘸水🌿 墨西哥🇲🇽',
-    desc:'你能说出200种辣椒的名字，还能告诉你每种最适合做什么菜。你知道二荆条增香、子弹头提色、小米辣添劲，每种辣椒在你的厨房里各司其职。<br><br>你研究过花椒的麻度与温度的关系曲线，做过不同产地干辣椒的色差值对比。朋友吃火锅时都不敢在你面前乱调蘸料——怕被你的辣度评分体系教育。<br><br>你的快乐是：发现一种从没吃过的辣椒，然后花一整个周末研究怎么用它。',
-    quote:'"辣不是痛觉，是一门可以量化的科学。"'
+    title:'香辛料研究员', tag:'辣椒风味图谱作者', cuisines:'川菜🌶️ 湘菜🔥 贵州酸辣🥘 云南蘸水🌿',
+    desc:'你能说出200种辣椒名字，知道二荆条增香、小米辣添劲。朋友吃火锅不敢在你面前乱调蘸料——怕被辣度评分体系教育。<br><br>你的快乐：发现一种从没吃过的辣椒，花整个周末研究它。',
+    quote:'"辣不是痛觉，是可量化的科学。"'
   },
   spicy_social: {
-    title:'火锅召集官', tag:'社交型吃辣人格', cuisines:'重庆火锅🍲 串串香🍢 麻辣香锅🥘 江湖菜🍗 黔东南酸汤🐟',
-    desc:'你的人生信条：没有什么是一顿火锅解决不了的，如果有，就两顿。你有一个"火锅群"，里面有五十多个人，你每月至少组织一次"全员辣度挑战赛"。<br><br>你走进火锅店，服务员会主动问："还是老样子？"你是朋友圈里公认的"火锅局的发起人"——没人比你更懂哪家店的鸭血最新鲜、毛肚最脆、脑花处理得最好。<br><br>你的超能力：永远能凑够一桌吃火锅的人。',
-    quote:'"今晚吃火锅，来的扣1。一秒满桌。"'
+    title:'火锅召集官', tag:'辣味社交达人', cuisines:'重庆火锅🍲 串串香🍢 麻辣香锅🥘 江湖菜🍗',
+    desc:'你的人生信条：没有什么是一顿火锅解决不了的。你有个"火锅群"五十多人，每月至少组织一次"辣度挑战赛"。<br><br>走进火锅店，服务员主动问："还是老样子？"你是朋友圈公认的火锅局发起人。',
+    quote:'"今晚吃火锅，来的扣1，一秒满桌。"'
   },
   spicy_zen: {
-    title:'超然辣味仙', tag:'佛系吃辣人', cuisines:'川菜🌶️ 湘菜🔥 麻辣拌🥗 泡椒凤爪🐔 酸辣粉🍜',
-    desc:'你已经过了"不辣不吃饭"的狂热阶段，进入了一种更高境界：辣也行，不辣也行，但恰好世界上辣的东西比较多，所以你看起来还是在吃辣。<br><br>你点菜时会说"微辣"，不是因为不能吃，是因为你早已看透——真正的辣不在嘴里，在灵魂。别人吃完满头大汗狂喝水，你微微一笑继续夹菜。<br><br>你的哲学：辣是一种选择，不是一种执念。随缘。',
-    quote:'"微辣就好。心意到了，辣自然就到了。"'
+    title:'超然辣味仙', tag:'佛系吃辣人', cuisines:'川菜🌶️ 湘菜🔥 麻辣拌🥗 泡椒凤爪🐔',
+    desc:'你已经过了"不辣不吃饭"的阶段，进入更高境界：辣也行，不辣也行。点"微辣"不是因为不能吃，是因为看透了。<br><br>别人吃完满头大汗，你微微一笑继续夹菜。你的哲学：辣是选择，不是执念。',
+    quote:'"微辣就好，心意到了，辣自然就到了。"'
   },
-
   fresh_radical: {
-    title:'食材神探', tag:'鲜度狂热者', cuisines:'粤菜🥟 潮汕菜🦐 日料🍣 淮扬菜🥟 地中海料理🫒',
-    desc:'你能闻出海鲜市场的哪家铺子是当天凌晨进的货。你买蔬菜的标准不是价格，是叶子上的露水还在不在。你追着渔船跑，鸡刚下蛋你就去拿。<br><br>你吃过一次隔夜的刺身，之后三天没睡着觉。你对不新鲜的东西有生理性排斥——这是一种天赋，也是一种诅咒。<br><br>你的朋友们觉得你"太讲究"，但每次找你推荐餐厅，没有一个差评。',
+    title:'食材神探', tag:'鲜度狂热者', cuisines:'粤菜🥟 潮汕菜🦐 日料🍣 淮扬菜🥟 地中海🫒',
+    desc:'你能闻出海鲜市场哪家是当天凌晨进的货。鸡刚下蛋你就去拿，蔬菜叶子上的露水还在不在是你的购买标准。<br><br>吃过一次隔夜刺身，之后三天没睡着。朋友觉得你太讲究，但找你推荐餐厅从没差评。',
     quote:'"食材不会说谎，它就是菜的灵魂。"'
   },
   fresh_scholar: {
-    title:'味觉科学家', tag:'鲜味解码人', cuisines:'粤菜🥟 日料🍣 潮汕生腌🦀 法餐🥂 怀石料理🍵',
-    desc:'你能吃出今天的金枪鱼是长崎产的还是青森产的——不是因为你看过菜单，是你真的能。你研究过不同季节海鲜的脂肪酸含量变化，画过味觉感受曲线图。<br><br>你知道清蒸一条鱼的精确时间应该是水开后7分32秒（取决于鱼的大小和厚度）。你家的厨房里有十个定时器，而你用得非常自然。<br><br>你的朋友觉得你吃饭比实验室还科学，但他们还是会乖乖等你的推荐。',
-    quote:'"鲜不是形容词，是一个可以用数据描述的客观量。"'
+    title:'味觉科学家', tag:'鲜味解码人', cuisines:'粤菜🥟 日料🍣 潮汕生腌🦀 法餐🥂 怀石🍵',
+    desc:'你能吃出金枪鱼是长崎产还是青森产。清蒸一条鱼的精确时间：水开后7分32秒（视鱼大小）。你厨房有十个定时器，用得非常自然。<br><br>朋友觉得你吃饭比实验室还科学，但他们还是乖乖等你的推荐。',
+    quote:'"鲜不是形容词，是用数据描述的客观量。"'
   },
   fresh_social: {
-    title:'米其林向导', tag:'精致饭局发起人', cuisines:'粤菜🥟 日料🍣 新中式融合菜🥢 法餐🥂 私房菜🏠',
-    desc:'你的手机里存了200多家餐厅，按菜系、场景、预算分门别类。朋友约饭前都会先问你："有没有推荐？人均不要超过500但要看着像人均1500的那种。"<br><br>你能记住每家餐厅的主厨名字，知道什么时候去能吃到当日特供。你对预订技巧了如指掌，热门店提前排队的攻略写满了备忘录。<br><br>你不是在吃饭，就是在帮别人安排吃饭的路上。',
+    title:'米其林向导', tag:'精致饭局发起人', cuisines:'粤菜🥟 日料🍣 新中式融合🥢 法餐🥂 私房菜🏠',
+    desc:'你手机存了200多家餐厅，按菜系场景预算分类。朋友约饭先问你："有没有推荐？要看着贵其实不贵的那种。"<br><br>你知道每家店主厨名字，对预订技巧了如指掌。你不是在吃饭，就是在帮别人安排吃饭。',
     quote:'"约饭别问了，我直接发你链接。"'
   },
   fresh_zen: {
-    title:'淡然知味人', tag:'清欢派美食家', cuisines:'粤菜🥟 日式定食🍱 清粥小菜🥣 潮汕打冷🦀 地中海沙拉🥗',
-    desc:'你已经过了追求"omakase"的阶段。一碗白粥配一碟潮汕菜脯，你也能吃得津津有味。你不需要昂贵的食材来证明自己懂吃。<br><br>你知道最好的味道往往藏在最简单的食物里。白水煮菜能尝出清甜，是因为你舌头的灵敏度已经修炼到不需要任何遮掩。<br><br>朋友们笑你"太清淡"，但每次他们吃伤了，都来找你讨一碗清粥。',
+    title:'淡然知味人', tag:'清欢派美食家', cuisines:'粤菜🥟 日式定食🍱 清粥小菜🥣 潮汕打冷🦀',
+    desc:'一碗白粥配一碟潮汕菜脯，你也能吃得津津有味。不需要昂贵食材证明自己懂吃。白水煮菜能尝出清甜，因为你舌头已经修炼到不需要遮掩。<br><br>朋友笑你太清淡，但每次吃伤了都来找你讨一碗清粥。',
     quote:'"人间至味，是清欢。"'
   },
-
   meat_radical: {
-    title:'饕餮转世', tag:'大胃王认证', cuisines:'东北菜🥘 新疆大盘鸡🍗 巴西烤肉🥩 德州BBQ🍖 韩国烤肉🇰🇷',
-    desc:'自助餐厅听到你的名字会临时改招牌——"今日已满"。你能一个人干掉半只烤全羊，服务员以为你是三人份，你说"是三个人吗？我一个人就够了。"<br><br>你的字典里没有"吃不下"，只有"等一下再来"。你第一次去东北吃铁锅炖的时候差点掉眼泪——"原来我这辈子一直在将就。"<br><br>你的人生哲学：肉管够，其他的都好说。',
+    title:'饕餮转世', tag:'大胃王认证', cuisines:'东北菜🥘 新疆大盘鸡🍗 巴西烤肉🥩 德州BBQ🍖',
+    desc:'自助餐厅听到你名字会临时改招牌。你能一个人干掉半只烤全羊，第一次去东北吃铁锅炖差点掉眼泪——"原来我这辈子一直在将就。"<br><br>你的人生哲学：肉管够，其他都好说。',
     quote:'"小份？那不是菜，那叫试吃装。"'
   },
   meat_scholar: {
     title:'烤肉工程师', tag:'蛋白质精算师', cuisines:'东北菜🥘 烤肉🍖 德州BBQ🥩 蒙古烤肉🔥 西班牙火腿🍖',
-    desc:'你知道每块肉的肌纤维走向、最佳烹饪温度和翻面时机。你的烤肉计时精确到秒，温控比航天局的还严格。你能用肉眼判断一块和牛的BMS等级。<br><br>你研究过美拉德反应的最佳条件，做过不同腌料对肉质影响的对照实验。朋友怕跟你吃烤肉——因为你会全程指导，翻面必须按你的指令。<br><br>但没人能否认：你烤出来的肉确实是最好吃的。',
+    desc:'你知道每块肉的肌纤维走向、最佳温度和翻面时机。烤肉计时精确到秒，温控比航天局严格。朋友怕跟你吃烤肉——全程被你指挥翻面。<br><br>但没人能否认：你烤出来的肉确实最好吃。',
     quote:'"烤肉不是烹饪，是化学实验。"'
   },
   meat_social: {
-    title:'撸串大祭司', tag:'夜宵组织部长', cuisines:'东北烧烤🍢 新疆烤肉🔥 啤酒撸串🍺 韩国烤肉🇰🇷 大排档文化🍻',
-    desc:'你的微信群名叫"今晚撸串"，群成员是你微信好友的70%。你能凭直觉判断一串羊肉是不是现切现穿，吃一口就知道老板用了多少孜然和辣椒面。<br><br>你掌握的技能：用瓶盖开啤酒、烤串串得又快又好、喝到凌晨四点还能正常回家。你是朋友心中的"夜宵之王"——没人比你更懂深夜的烟火气。<br><br>你的名言：啤的白的红的，谁走谁孙子。',
+    title:'撸串大祭司', tag:'夜宵组织部长', cuisines:'东北烧烤🍢 新疆烤肉🔥 啤酒撸串🍺 韩国烤肉🇰🇷',
+    desc:'你的微信群叫"今晚撸串"，成员是你微信好友的70%。一串羊肉是不是现切现穿，吃一口你就知道。<br><br>你的名言：啤的白红的，谁走谁孙子。没人比你更懂深夜烟火气。',
     quote:'"串在人就在，江湖就在。"'
   },
   meat_zen: {
-    title:'食肉弥勒', tag:'来者不拒型', cuisines:'东北菜🥘 食堂红烧肉🍖 快餐汉堡🍔 烤串🍢 妈妈做的炖肉🥩',
-    desc:'你对肉没有执念但每顿都有肉。自助餐吃回本了也不撑——因为你根本不算计，开心就好。食堂红烧肉和米其林牛排在你嘴里没有高低之分，都是肉，都好吃。<br><br>你已经过了"非A5和牛不吃"的阶段。便利店的炸鸡排、街边的烤肠、妈妈炖的排骨——每一个都是你心中的comfort food。<br><br>有人问："你吃过最好吃的肉是什么？"你想了想说："都挺好吃的。"',
+    title:'食肉弥勒', tag:'来者不拒型', cuisines:'东北菜🥘 食堂红烧肉🍖 快餐汉堡🍔 妈妈炖肉🥩',
+    desc:'便利店炸鸡排、街边烤肠、妈妈炖排骨——每一个都是你的comfort food。A5和牛和食堂红烧肉在你嘴里没有高低之分，都是肉，都好吃。<br><br>有人问你吃过最好吃的肉是什么，你想了想说："都挺好吃的。"',
     quote:'"吃肉嘛，开心最重要。"'
   },
-
   carb_radical: {
-    title:'碳水核弹', tag:'主食终结者', cuisines:'兰州拉面🍜 山西刀削面🍝 武汉热干面🥢 陕西油泼面🌶️ 意面🍝',
-    desc:'你一顿能吃五碗米饭，不是因为饿，是因为菜还有。你对"吃面"有种近乎宗教般的虔诚——面不够可以加汤，但汤不够不可以加水。<br><br>你去面馆从来不看菜单，直接问今天有什么新鲜的面。你能吃出面条是不是手工擀的、煮了几分钟、过了凉水没有。<br><br>朋友评价：跟你吃饭费米。',
+    title:'碳水核弹', tag:'主食终结者', cuisines:'兰州拉面🍜 山西刀削面🍝 武汉热干面🥢 陕西油泼面🌶️',
+    desc:'你一顿能吃五碗米饭，不是因为饿，是因为菜还有。你对"吃面"有近乎宗教的虔诚——面不够可以加汤，汤不够不可以加水。<br><br>朋友评价：跟你吃饭费米。',
     quote:'"不会吃主食的人，不配谈美食。"'
   },
   carb_scholar: {
-    title:'面点艺术家', tag:'淀粉美学大师', cuisines:'中式面点🥟 日式拉面🍜 意面🍝 面包🥖 兰州拉面文化📜',
-    desc:'你能把拉面分成七种粗细等级，能闭着眼睛捏出32个褶的饺子。你研究过不同面粉的蛋白质含量对劲道的影响，也试过用不同水温来揉面。<br><br>你跟拉面师傅聊得来，因为他们觉得你是懂行的人。你曾为了研究最好的兰州拉面，开车自驾大西北，沿路吃过四十多家店。<br><br>你家厨房有六种不同的面粉，每一种都有专属用途。你没觉得这不正常。',
+    title:'面点艺术家', tag:'淀粉美学大师', cuisines:'中式面点🥟 日式拉面🍜 意面🍝 面包🥖',
+    desc:'你能把拉面分七种粗细等级，闭眼捏出32个褶的饺子。研究过不同面粉蛋白质含量对劲道的影响。<br><br>你曾为了研究最好的兰州拉面，自驾大西北沿路吃了四十多家店。你家厨房有六种不同的面粉。',
     quote:'"世间万物，不过是一碗面的事。"'
   },
   carb_social: {
-    title:'拼饭创始人', tag:'碳水社交家', cuisines:'火锅面🍜 铁锅焖面🥘 大盘鸡拌面🍗 烤鸭卷饼🦆 手抓饭🍚',
-    desc:'你说"我们一起吃饭"，别人的意思是"一起吃"，你的意思是"你点菜我加面，咱俩一锅端"。你会主动帮朋友加饭、加面、加饼，主打一个"不够再叫"。<br><br>你的天赋：能把任何聚餐都变成碳水盛宴。朋友跟你吃饭都觉得踏实——因为跟你吃饭绝不会饿着回去。<br><br>你的朋友圈里，"碳水"这个词出现频率是你的专属标签。',
+    title:'拼饭创始人', tag:'碳水社交家', cuisines:'火锅面🍜 铁锅焖面🥘 大盘鸡拌面🍗 烤鸭卷饼🦆',
+    desc:'你说"一起吃饭"，别人以为"一起吃"，你以为"你点菜我加面"。你会主动帮朋友加饭加面加饼，主打一个不够再叫。<br><br>朋友跟你吃饭都觉得踏实——绝不会饿着回去。',
     quote:'"别客气，再点两碗面，大家分着吃。"'
   },
   carb_zen: {
-    title:'泡面哲学家', tag:'碳水禅修者', cuisines:'方便面🍜 剩饭炒饭🍚 馒头夹咸菜🥖 路边摊炒面🍝 自热米饭🍱',
-    desc:'你可以在方便面里找到米其林的幸福感。你相信：人对了，吃什么都是大餐；人不对，米其林三星也不香。<br><br>你的碳水哲学：米饭就是最好的餐桌，不需要华丽的菜肴。加班到半夜煮一碗泡面加个蛋，就是人间极品。<br><br>朋友们觉得你太好养活了，但你心里明白——你已经跨过了物质追求，进入了碳水禅的境界。',
+    title:'泡面哲学家', tag:'碳水禅修者', cuisines:'方便面🍜 剩饭炒饭🍚 馒头夹咸菜🥖 自热米饭🍱',
+    desc:'你可以在方便面里找到米其林的幸福感。人对了吃什么都是大餐，人不对米其林三星也不香。<br><br>加班到半夜煮一碗泡面加个蛋，就是人间极品。你已经跨过物质追求，进入了碳水禅的境界。',
     quote:'"一碗泡面能品出人生三味。"'
   },
-
   sweet_radical: {
-    title:'糖分狂战士', tag:'全糖不商量', cuisines:'台式奶茶🧋 法式甜品🥐 意大利甜品☕ 港式糖水🍧 日式甜点🍡',
-    desc:'你的血糖浓度超出了医学仪器量程，但你不在乎。全糖是底线，"少糖"是对你的侮辱，"无糖"你会直接走人。<br><br>来大姨妈喝红糖水？你平时就喝红糖水。下班路上经过奶茶店是肌肉记忆——根本不需要用脑子。<br><br>朋友警告你控糖，你说："好的，明天开始。先让我喝完这杯全糖去冰加波霸加椰果的乌龙奶茶。"',
+    title:'糖分狂战士', tag:'全糖不商量', cuisines:'台式奶茶🧋 法式甜品🥐 港式糖水🍧 日式甜点🍡',
+    desc:'全糖是底线，"少糖"是对你的侮辱。下班路上经过奶茶店是肌肉记忆。朋友警告你控糖，你说："好的明天开始，先让我喝完这杯。"<br><br>你的血液里流淌的不是血，是波霸奶茶。',
     quote:'"甜不是卡路里，是情绪价值。"'
   },
   sweet_scholar: {
-    title:'甜品架构师', tag:'糖分工程师', cuisines:'马卡龙🎨 提拉米苏☕ 法式慕斯🍮 日式和果子🍡 中式糕饼🥮',
-    desc:'你研究马卡龙裙边高度与蛋白打发的关系，能背出焦糖化反应的温度曲线。你的烤箱温度计是经过校准的，精确到0.5度。<br><br>你知道君度橙酒和在哪个温度下释放的香气最完整，研究过不同产地的可可脂结晶曲线。朋友觉得你吃甜品比高考还认真，但你的作品确实好吃到他们愿意为此付钱。<br><br>你的梦想：开一家自己的甜品实验室。',
+    title:'甜品架构师', tag:'糖分工程师', cuisines:'马卡龙🎨 提拉米苏☕ 法式慕斯🍮 日式和果子🍡',
+    desc:'你研究马卡龙裙边高度与蛋白打发的关系，烤箱温度计精确到0.5度。朋友觉得你吃甜品比高考还认真，但你的作品好吃到他们愿意付钱。<br><br>你的梦想：开一家自己的甜品实验室。',
     quote:'"甜品是物理、化学和爱的共同产物。"'
   },
   sweet_social: {
-    title:'下午茶局长', tag:'甜品社交达人', cuisines:'英式下午茶🫖 网红甜品店📸 法式蛋糕🍰 冰淇淋🍦 烘焙咖啡馆☕',
-    desc:'你的朋友圈就是甜品展。你会在吃甜品之前花5分钟找光、构图、试拍，然后发九宫格并配文"今日份的快乐"。<br><br>你有一个"下午茶探店群"，里面都是和你一样对甜品有信仰的人。你每周至少要打卡两家新开的甜品店。<br><br>你的人生中，拍照是对甜品的尊重。东西可以不好吃——但你拍了。',
-    quote:'"相机先吃，是对甜品的最高礼遇。"'
+    title:'下午茶局长', tag:'甜品社交达人', cuisines:'英式下午茶🫖 网红甜品店📸 法式蛋糕🍰 冰淇淋🍦',
+    desc:'你的朋友圈就是甜品展。吃甜品之前花5分钟找光构图试拍，然后发九宫格配文"今日份的快乐"。<br><br>你有一句名言：相机先吃，是对甜品的最高礼遇。东西可以不好吃，但你拍了。',
+    quote:'"先拍九张，再动叉子。"'
   },
   sweet_zen: {
-    title:'云淡甜心客', tag:'无糖也行派', cuisines:'水果甜品🍓 低卡酸奶🥛 黑巧克力🍫 椰汁甜品🥥 清淡糕点🍃',
-    desc:'你喜欢甜的但不依赖甜的。代糖也行，无糖也行，水果自带的甜味对你来说刚刚好。你去奶茶店会说"少少糖"——不是因为怕胖，是因为不想要太腻。<br><br>你已经过了"用来填充情绪"的甜食阶段。甜是锦上添花，不是雪中送炭。一块85%的黑巧，慢嚼三分钟，就是你对甜的全部需求。<br><br>朋友们笑你"老了"，你觉得他们是太浮夸了。',
+    title:'云淡甜心客', tag:'微甜也行派', cuisines:'水果甜品🍓 低卡酸奶🥛 黑巧克力🍫 椰汁甜品🥥',
+    desc:'你喜欢甜的但不依赖。代糖也行，无糖也行，水果自带的甜味刚刚好。一块85%黑巧慢嚼三分钟，就是你对甜的全部需求。<br><br>朋友笑你老了，你觉得他们是太浮夸了。',
     quote:'"微甜刚刚好，人生不需要太甜。"'
   },
-
   globe_radical: {
-    title:'味觉哥伦布', tag:'为吃可以搬家', cuisines:'泰国菜🍜 越南河粉🍲 印度咖喱🍛 墨西哥🇲🇽 埃塞俄比亚☕',
-    desc:'你的护照是菜单，你的签证是饭票。你曾经为了学做正宗的pad thai飞去曼谷住了两周，学会了之后觉得还不过瘾，又去了清迈。<br><br>你每到一个新城市/国家，第一个目的地不是酒店、不是景点——是菜市场。你和当地人用手语+Google翻译也能完成一场美食交易。<br><br>你的最高成就：在一个你完全不会当地语言的国家，吃到了当地人认证的"这才是本地人吃的"。',
+    title:'味觉哥伦布', tag:'为吃可以搬家', cuisines:'泰国菜🍜 越南河粉🍲 印度咖喱🍛 墨西哥🌯 埃塞俄比亚☕',
+    desc:'你的护照是菜单，签证是饭票。为了学正宗pad thai飞去曼谷住了两周，还不过瘾又去了清迈。<br><br>你的最高成就：在一个完全不会当地语言的国家，吃到了当地人认证的"这才是本地人吃的"。',
     quote:'"世界那么大，我先吃一遍。"'
   },
   globe_scholar: {
-    title:'跨文化食学家', tag:'餐桌人类学家', cuisines:'全球菜系🌍 香料贸易史📜 饮食人类学📖 发酵文化🫙 饮食地理🗺️',
-    desc:'你写过各国美食分析的文章，发在公众号上有人留言"你是蓝带毕业的吗"——其实你不是，你只是真的太爱研究了。<br><br>你从香料贸易路线讲到新大陆的食材交换，从发酵技术的地域差异讲到各地人对"鲜"的不同理解。跟你吃饭不是吃饭，是上一堂文化课。<br><br>你的旅行笔记比别人多两倍——不是因为你去了更多地方，是吃了更多东西。',
+    title:'跨文化食学家', tag:'餐桌人类学家', cuisines:'全球菜系🌍 香料贸易史📜 饮食人类学📖 发酵文化🫙',
+    desc:'你写过各国美食分析文章，有人留言"你是蓝带毕业的吗"。其实不是，你只是太爱研究了。<br><br>你从香料贸易路线讲到新大陆食材交换，跟你吃饭不是吃饭，是上一堂文化课。',
     quote:'"饮食是最真诚的文化使者。"'
   },
   globe_social: {
-    title:'国际饭局总监', tag:'六国饮食协调员', cuisines:'周一泰式🍜 周二意式🍝 周三越南🍲 周四墨西哥🌯 周五韩式🇰🇷 周末混搭🎲',
-    desc:'你组织聚餐的正确流程：打开大众点评→国际菜→"你们想吃什么国家的？"→没人选→"那就我来安排，周一泰、周二意、周三越、周四墨、周五韩，都来打卡。"<br><br>你有六种不同国家的蘸酱在冰箱里，每一种都使用得恰到好处。朋友说跟你吃饭像在环游世界。<br><br>你最得意的成就：让从没吃过越南河粉的朋友吃完后哭了，说之前都在吃什么。',
-    quote:'"今晚吃什么？你要问哪个国家。"'
+    title:'国际饭局总监', tag:'六国饮食协调员', cuisines:'周一泰式🍜 周二意式🍝 周三越南🍲 周四墨西哥🌯 周五韩式🇰🇷',
+    desc:'你的冰箱里有六种不同国家的蘸酱。朋友说跟你吃饭像在环游世界。你最得意的成就：让从没吃过越南河粉的朋友吃完后哭了。<br><br>你的人生信条：今晚吃什么？你要问哪个国家。',
+    quote:'"今晚吃什么？先选国家再说。"'
   },
   globe_zen: {
-    title:'随缘地球胃', tag:'流浪型国际胃', cuisines:'路边摊煎饼🥞 机场快餐✈️ 偶然发现的小馆🗺️ 菜市场熟食🥡 什么都行🍽️',
-    desc:'你不需要刻意追求国际化——你的胃本来就是全球化配置。路边摊的煎饼和米其林的鹅肝在你嘴里地位平等，都是人间美味。<br><br>去旅行从来不做攻略，走到哪里吃到哪里。你相信最好吃的东西不会出现在大众点评首页，而是在某个你偶然路过的巷子里。<br><br>你的人生哲学：命运会把我送到最好吃的那个摊位前。',
+    title:'随缘地球胃', tag:'流浪型国际胃', cuisines:'路边摊煎饼🥞 偶然发现的小馆🗺️ 菜市场熟食🥡',
+    desc:'路边摊煎饼和米其林鹅肝在你嘴里地位平等。去旅行从来不做攻略，走到哪吃到哪。你相信最好吃的东西不会出现在大众点评首页。<br><br>你的人生哲学：命运会把我送到最好吃的那个摊位前。',
     quote:'"随缘，遇到什么吃什么。"'
+  },
+  // ====== NEW: easy type (佛系淡食 / 不爱吃东西的人) ======
+  easy_radical: {
+    title:'速食猎手', tag:'效率至上主义者', cuisines:'自热锅🍱 方便面🍜 外卖三分钟套餐🥡 食堂大锅饭🍚',
+    desc:'你觉得吃饭是浪费时间，能三分钟解决绝不花半小时。你研究过哪款自热锅最好吃，哪款泡面营养最均衡（虽然你知道泡面没营养）。<br><br>你的座右铭：把吃饭的时间省下来，干点正事。你的外卖备注永远写："越快越好，不用好看。"',
+    quote:'"吃饭？那个费时间的事情吗？"'
+  },
+  easy_scholar: {
+    title:'营养算法师', tag:'吃饭性价比研究员', cuisines:'轻食沙拉🥗 蛋白棒🥜 维生素软糖💊 代餐奶昔🥛',
+    desc:'你把吃饭当成一道数学题：蛋白质×碳水÷时间成本＝最优解。你能背出20种代餐粉的营养成分表，研究过不同维生素的最佳服用时间。<br><br>朋友笑你"吃饭跟你写代码一样"，你说："效率高有什么不好？"',
+    quote:'"吃饭的本质，是给身体加油。"'
+  },
+  easy_social: {
+    title:'聚餐气氛组', tag:'吃不吃无所谓但我得来', cuisines:'公司食堂🍽️ 商场美食广场🍟 快餐🍔 随便哪家都行🤷',
+    desc:'你不是来吃的，你是来聊天的。饭局上你永远在说话，碗里的饭吃了两小时还剩一半。朋友说你是"聚餐气氛组主任"。<br><br>你的人生哲学：有饭局=有朋友=开心。至于吃什么，真的无所谓。',
+    quote:'"我来是聊天的，不是来吃饭的。"'
+  },
+  easy_zen: {
+    title:'大道至简人', tag:'食物无所谓派', cuisines:'白米饭🍚 清汤面🍜 馒头🍞 什么都行🤷',
+    desc:'你对食物没有执念。饿了就吃，不饿就不吃。别人问你想吃什么，你说"都行"。别人问你最爱吃什么，你想了半天说"米饭吧，安全"。<br><br>你可能是这群人里最快乐的一个——因为没有期待，所以永远不会失望。',
+    quote:'"吃饭是为了活着，但活着不是为了吃饭。"'
   }
 };
 
-// ============ 16 QUESTIONS ============
-// Each option: {text, emoji, typeKey, persKey}
+// =========== 16 QUESTIONS (balanced, shorter) ===========
 const QUESTIONS = [
-  {q:'深夜11点，肚子突然叫了。你的第一反应是？', opts:[
-    {t:'打开外卖App，直接筛选"辣"标签，越红越好', e:'🔥', tk:'spicy', pk:'radical'},
-    {t:'翻冰箱看看还有什么新鲜食材，做个简单精致的夜宵', e:'🥢', tk:'fresh', pk:'scholar'},
-    {t:'点一份超大份烧烤外卖，不够再加', e:'🍖', tk:'meat', pk:'radical'},
-    {t:'煮碗泡面加个蛋，幸福的夜就这么简单', e:'🍜', tk:'carb', pk:'zen'}
+  {q:'深夜11点肚子叫了，你第一反应是？', opts:[
+    {t:'点超大份烧烤，不够再加', e:'🍖', tk:'meat', pk:'radical'},
+    {t:'煮碗泡面加个蛋，简单快乐', e:'🍜', tk:'carb', pk:'zen'},
+    {t:'翻冰箱看看有啥，精致夜宵安排', e:'🥢', tk:'fresh', pk:'scholar'},
+    {t:'懒得吃，喝水躺平', e:'🥗', tk:'easy', pk:'zen'}
   ]},
-  {q:'朋友约你去吃一家新开的餐厅，你最关心什么？', opts:[
-    {t:'辣不辣，有没有那种"吃完要缓三天"的隐藏菜单', e:'🌶️', tk:'spicy', pk:'scholar'},
-    {t:'食材从哪里来，是不是当日空运的', e:'✈️', tk:'fresh', pk:'radical'},
-    {t:'量够不够大，能不能凑一桌人一起造', e:'👥', tk:'carb', pk:'social'},
-    {t:'是哪个国家的菜，如果是我没吃过的就冲', e:'🗺️', tk:'globe', pk:'radical'}
+  {q:'朋友约新餐厅，你最关心？', opts:[
+    {t:'量够不够大，能不能造', e:'🍖', tk:'meat', pk:'radical'},
+    {t:'食材新不新鲜', e:'🍣', tk:'fresh', pk:'scholar'},
+    {t:'是不是异国料理，没吃过就冲', e:'🌍', tk:'globe', pk:'radical'},
+    {t:'离得远不远，太远就算了', e:'🥗', tk:'easy', pk:'zen'}
   ]},
-  {q:'吃火锅的时候，你的蘸料碗最有可能是？', opts:[
-    {t:'蒜泥+香油+小米辣+干碟，缺一样都觉得不完整', e:'🧄', tk:'spicy', pk:'social'},
-    {t:'海鲜酱油+一点点沙茶+葱花，简简单单吃到原味', e:'🦪', tk:'fresh', pk:'zen'},
-    {t:'芝麻酱+韭菜花+腐乳+蒜泥，满满一大碗像粥', e:'🥣', tk:'meat', pk:'social'},
-    {t:'沙茶+花生酱+甜辣酱+醋，甜咸酸辣全都要', e:'🥜', tk:'sweet', pk:'radical'}
+  {q:'火锅蘸料，你最可能是？', opts:[
+    {t:'蒜泥+香油+小米辣，缺一样不完整', e:'🧄', tk:'spicy', pk:'social'},
+    {t:'海鲜酱油+葱花，简简单单吃原味', e:'🦪', tk:'fresh', pk:'zen'},
+    {t:'芝麻酱+韭菜花+腐乳，满满一大碗', e:'🥣', tk:'meat', pk:'social'},
+    {t:'随便搞搞就行，蘸料不重要', e:'🥗', tk:'easy', pk:'zen'}
   ]},
-  {q:'去外地旅游，你找美食的姿势是？', opts:[
-    {t:'直接问当地朋友"你们这儿最辣的是什么"', e:'🗣️', tk:'spicy', pk:'radical'},
-    {t:'打开点评按评分排序，只看4.8以上的，逐一研究食材', e:'⭐', tk:'fresh', pk:'scholar'},
-    {t:'看图片里谁的盘子最大，肉堆得最高就去哪家', e:'📸', tk:'meat', pk:'radical'},
-    {t:'在地图上标记所有异国料理，挨个打卡', e:'📍', tk:'globe', pk:'social'}
+  {q:'去外地旅游，你找美食的方式？', opts:[
+    {t:'直接问当地朋友最辣的是什么', e:'🌶️', tk:'spicy', pk:'radical'},
+    {t:'按评分排序，只去4.8分以上的', e:'⭐', tk:'fresh', pk:'scholar'},
+    {t:'在地图标记所有异国菜，挨个打卡', e:'📍', tk:'globe', pk:'social'},
+    {t:'走到哪吃到哪，随便', e:'🚶', tk:'easy', pk:'zen'}
   ]},
-  {q:'最不能接受的"美食车祸"是什么？', opts:[
-    {t:'点了"极辣"结果跟清水煮的一样', e:'😤', tk:'spicy', pk:'zen'},
+  {q:'最不能接受的美食车祸？', opts:[
+    {t:'点了极辣结果跟清水煮的一样', e:'😤', tk:'spicy', pk:'zen'},
     {t:'刺身不冰、虾不弹，食材明显不新鲜', e:'🤢', tk:'fresh', pk:'radical'},
-    {t:'花188块结果上来三口菜，盘子比脸大、菜比指甲盖小', e:'😡', tk:'meat', pk:'zen'},
-    {t:'号称正宗的xxx，结果是本土魔改版', e:'😤', tk:'globe', pk:'scholar'}
+    {t:'花188块上来三口菜，盘子比脸大', e:'😡', tk:'meat', pk:'zen'},
+    {t:'根本不存在，我对吃没要求', e:'🤷', tk:'easy', pk:'zen'}
   ]},
-  {q:'工作日午餐，你大概率在吃什么？', opts:[
-    {t:'冒菜/麻辣烫，满头大汗回工位继续战斗', e:'💼', tk:'spicy', pk:'social'},
-    {t:'轻食沙拉但一定要选最新鲜的食材店', e:'🥗', tk:'fresh', pk:'zen'},
-    {t:'黄焖鸡/盖饭/大碗面——吃饱才有力气搬砖', e:'🍚', tk:'carb', pk:'radical'},
-    {t:'今天韩式拌饭明天越南河粉后天意面，天天换国家', e:'🔄', tk:'globe', pk:'social'}
+  {q:'工作日午餐，你大概率在吃？', opts:[
+    {t:'黄焖鸡/盖饭/大碗面，吃饱再搬砖', e:'🍚', tk:'carb', pk:'radical'},
+    {t:'轻食沙拉，必须选最新鲜的店', e:'🥗', tk:'fresh', pk:'zen'},
+    {t:'今天韩式明天越南，天天换国家', e:'🔄', tk:'globe', pk:'social'},
+    {t:'有什么吃什么，食堂/外卖随机', e:'🤷', tk:'easy', pk:'zen'}
   ]},
-  {q:'朋友眼中你的"吃货人设"是什么？', opts:[
-    {t:'"医生说让他少吃辣，他回了一句：您读过论文吗？"', e:'🤓', tk:'spicy', pk:'scholar'},
-    {t:'"你推荐的那家店真的绝了，食材太新鲜了"', e:'👑', tk:'fresh', pk:'social'},
+  {q:'朋友眼里你的吃货人设是？', opts:[
     {t:'"每次跟你吃饭我都得扶墙出来"', e:'🫃', tk:'meat', pk:'social'},
-    {t:'"你在哪找到这么多奇奇怪怪的小众异国菜的？"', e:'🕵️', tk:'globe', pk:'scholar'}
+    {t:'"你推荐的那家店食材太新鲜了"', e:'👑', tk:'fresh', pk:'social'},
+    {t:'"你在哪找的这么多奇奇怪怪的异国菜？"', e:'🕵️', tk:'globe', pk:'scholar'},
+    {t:'"你真的对吃没要求吗？"', e:'🤔', tk:'easy', pk:'zen'}
   ]},
-  {q:'如果开一家餐厅，你会选择什么类型？', opts:[
-    {t:'川湘私房菜，辣度分级体系清晰，只有微辣和中辣以上', e:'🏠', tk:'spicy', pk:'scholar'},
-    {t:'日式割烹，每日只接待8人，当日食材当日菜单', e:'🇯🇵', tk:'fresh', pk:'radical'},
-    {t:'大铁锅炖一切，肉管够、饭管够、酒管够', e:'🥘', tk:'meat', pk:'radical'},
-    {t:'无国界融合菜，每周菜单轮换不同国家', e:'🌀', tk:'globe', pk:'social'}
-  ]},
-  {q:'你觉得"健康饮食"是什么意思？', opts:[
-    {t:'把辣椒当消炎药，把麻辣当代谢加速器', e:'💊', tk:'spicy', pk:'zen'},
-    {t:'新鲜天然食材+清淡调味=最好的健康', e:'🥬', tk:'fresh', pk:'zen'},
-    {t:'吃饱就是健康。饿着肚子谈什么营养均衡', e:'💪', tk:'meat', pk:'zen'},
-    {t:'全糖奶茶也是茶，茶是健康的，所以奶茶是健康的', e:'🧋', tk:'sweet', pk:'radical'}
+  {q:'如果开一家餐厅，你选什么类型？', opts:[
+    {t:'大铁锅炖一切，肉管够饭管够', e:'🥘', tk:'meat', pk:'radical'},
+    {t:'日式割烹，每日只接待8人', e:'🇯🇵', tk:'fresh', pk:'radical'},
+    {t:'无国界融合菜，每周换国家', e:'🌀', tk:'globe', pk:'social'},
+    {t:'快餐连锁，三分钟出餐', e:'🍔', tk:'easy', pk:'radical'}
   ]},
   {q:'甜品对你来说是？', opts:[
-    {t:'不需要。正餐够辣够爽就行，甜的是另一维度的东西', e:'🙅', tk:'spicy', pk:'radical'},
-    {t:'偶尔来一点，最好是新鲜水果本身的那种清甜', e:'🍓', tk:'fresh', pk:'zen'},
-    {t:'主食！红豆饭、八宝饭、粘豆包，谁说甜的不能当饭吃', e:'🍚', tk:'carb', pk:'social'},
-    {t:'活下去的理由。没有甜品的一天是不完整的', e:'🍰', tk:'sweet', pk:'radical'}
+    {t:'不需要，正餐够爽就行', e:'🙅', tk:'spicy', pk:'radical'},
+    {t:'偶尔来一点，最好水果本身的清甜', e:'🍓', tk:'fresh', pk:'zen'},
+    {t:'红豆饭、八宝饭，甜的也能当饭吃', e:'🍚', tk:'carb', pk:'social'},
+    {t:'活下去的理由，没有甜品的一天不完整', e:'🍰', tk:'sweet', pk:'radical'}
   ]},
-  {q:'跟别人一起吃饭时，你通常是什么角色？', opts:[
-    {t:'负责点菜的人——因为你知道什么好吃，且会对辣度严格把关', e:'📋', tk:'spicy', pk:'social'},
-    {t:'负责品鉴的人——每道菜上来你先尝一口，然后给出分析', e:'🧐', tk:'fresh', pk:'scholar'},
-    {t:'负责清盘的人——"哎这个你们不吃了是吧？那我吃了"', e:'🫃', tk:'carb', pk:'radical'},
-    {t:'负责安利的人——"你们一定要试试这个越南的鱼露，绝了！"', e:'📢', tk:'globe', pk:'social'}
+  {q:'跟人一起吃饭，你通常的角色？', opts:[
+    {t:'负责点菜，我知道哪家好吃', e:'📋', tk:'spicy', pk:'social'},
+    {t:'负责品鉴，每道菜上来先分析', e:'🧐', tk:'fresh', pk:'scholar'},
+    {t:'负责清盘："哎这个你们不吃了？"', e:'🫃', tk:'carb', pk:'radical'},
+    {t:'负责聊天，吃不吃无所谓', e:'💬', tk:'easy', pk:'social'}
   ]},
-  {q:'你最常吃的零食是？', opts:[
+  {q:'你最常吃的零食？', opts:[
     {t:'辣条/麻辣牛肉干/泡椒凤爪', e:'🥩', tk:'spicy', pk:'zen'},
     {t:'海苔/鱿鱼丝/坚果/水果干', e:'🦑', tk:'fresh', pk:'zen'},
-    {t:'薯片/锅巴/肉脯/麻花——够大包够过瘾', e:'🍟', tk:'carb', pk:'zen'},
-    {t:'巧克力/马卡龙/曲奇/各种小甜饼', e:'🍫', tk:'sweet', pk:'zen'}
+    {t:'薯片/锅巴/肉脯，够大包才过瘾', e:'🍟', tk:'carb', pk:'zen'},
+    {t:'我不怎么吃零食', e:'🤷', tk:'easy', pk:'zen'}
   ]},
-  {q:'你的美食相册里最多的内容是什么？', opts:[
-    {t:'满屏红油——火锅、串串、麻辣香锅', e:'🔴', tk:'spicy', pk:'social'},
-    {t:'精致的摆盘——日料、法餐、私房菜的高光时刻', e:'📷', tk:'fresh', pk:'social'},
-    {t:'分量感人——比脸大的盘子、堆成山的食物', e:'🏔️', tk:'meat', pk:'social'},
-    {t:'各国美食合集——每张照片都能开地理竞猜', e:'🗺️', tk:'globe', pk:'social'}
+  {q:'你的美食相册里最多的是？', opts:[
+    {t:'满屏红油——火锅串串麻辣香锅', e:'🔴', tk:'spicy', pk:'social'},
+    {t:'精致摆盘——日料法餐私房菜', e:'📷', tk:'fresh', pk:'social'},
+    {t:'各国美食合集——每张都能开地理竞猜', e:'🗺️', tk:'globe', pk:'social'},
+    {t:'根本没有美食相册', e:'📵', tk:'easy', pk:'zen'}
   ]},
-  {q:'如果要把一道菜介绍给外星人，你会选？', opts:[
-    {t:'麻辣火锅——让他们见识一下碳基生物的痛觉极限', e:'👽', tk:'spicy', pk:'radical'},
-    {t:'生鱼片——让他们体验一下不经过火焰的纯粹味道', e:'🐟', tk:'fresh', pk:'scholar'},
-    {t:'烤全羊——让他们看看人类对肉的仪式感', e:'🐑', tk:'meat', pk:'social'},
-    {t:'意大利面——看似简单却最能展示文明深度的主食', e:'🍝', tk:'carb', pk:'scholar'}
+  {q:'一个人吃饭的时候你会？', opts:[
+    {t:'点上两三个菜，一个人也要仪式感', e:'🍽️', tk:'spicy', pk:'radical'},
+    {t:'认真吃每一口，没人打扰才能吃出层次', e:'🧘', tk:'fresh', pk:'scholar'},
+    {t:'随便吃点，然后买杯奶茶收尾', e:'🧋', tk:'sweet', pk:'zen'},
+    {t:'能不吃就不吃，省时间', e:'⏱️', tk:'easy', pk:'radical'}
   ]},
-  {q:'一个人吃饭的时候，你会？', opts:[
-    {t:'也点上两三个菜，一个人也要仪式感拉满', e:'🍽️', tk:'spicy', pk:'radical'},
-    {t:'认真对待每一口，没人打扰才能吃出味道的层次', e:'🧘', tk:'fresh', pk:'scholar'},
-    {t:'点一个套餐狂炫三碗米饭，一个人的盛宴', e:'🍚', tk:'carb', pk:'radical'},
-    {t:'随便吃点然后买杯奶茶当正餐的收尾', e:'🧋', tk:'sweet', pk:'zen'}
+  {q:'给你一笔钱专门用来吃，你第一件事？', opts:[
+    {t:'飞重庆吃遍所有火锅，写辣度评测报告', e:'✈️', tk:'spicy', pk:'scholar'},
+    {t:'预约三家米其林，体验完整tasting menu', e:'⭐', tk:'fresh', pk:'radical'},
+    {t:'包场吃一次全牛宴+全羊宴', e:'🎉', tk:'meat', pk:'social'},
+    {t:'这钱我拿去干别的吧', e:'💰', tk:'easy', pk:'zen'}
   ]},
-  {q:'如果给你一笔钱专门用来"吃"，你第一时间会？', opts:[
-    {t:'飞重庆吃遍所有火锅排名，写一份万字辣度评测报告', e:'✈️', tk:'spicy', pk:'scholar'},
-    {t:'预约三家米其林三星，体验完整tasting menu', e:'⭐', tk:'fresh', pk:'radical'},
-    {t:'带上所有朋友包场吃一次全牛宴+全羊宴', e:'🎉', tk:'meat', pk:'social'},
-    {t:'开启环球美食之旅，一个国家至少待一周', e:'🌏', tk:'globe', pk:'radical'}
+  {q:'你觉得"会吃"是什么意思？', opts:[
+    {t:'能吃辣、敢尝试、什么都敢下嘴', e:'🌶️', tk:'spicy', pk:'radical'},
+    {t:'懂食材、知出处、吃得有道理', e:'🧐', tk:'fresh', pk:'scholar'},
+    {t:'能找到别人找不到的好馆子', e:'🗺️', tk:'globe', pk:'social'},
+    {t:'不挑食、好养活、什么都行', e:'🤷', tk:'easy', pk:'zen'}
+  ]},
+  {q:'如果食物有段位，你在哪一段？', opts:[
+    {t:'王者段位，我吃过的你可能没听过', e:'👑', tk:'globe', pk:'scholar'},
+    {t:'黄金段位，好吃的和好看的我都懂', e:'📸', tk:'sweet', pk:'social'},
+    {t:'白银段位，好吃就行，不讲究', e:'🍜', tk:'carb', pk:'zen'},
+    {t:'我甚至不知道食物还有段位这种说法', e:'😅', tk:'easy', pk:'zen'}
   ]}
 ];
 
-// ============ SVG CHARACTER GENERATOR ============
+// =========== SVG CHARACTER GENERATOR ===========
 function makeSvg(typeKey, persKey) {
   const tm = TYPE_META[typeKey];
   const pm = PERS_META[persKey];
   const c = tm.color, a = tm.accent, b = tm.bg;
 
-  // Base face features per type
   const typeFeatures = {
-    spicy: {body:'<circle cx="70" cy="75" r="55" fill="'+c+'" opacity=".15"/><circle cx="70" cy="72" r="48" fill="'+c+'"/><ellipse cx="70" cy="130" rx="42" ry="18" fill="'+a+'" opacity=".2"/>', accessory:'<text x="70" y="78" text-anchor="middle" font-size="46">🌶️</text>', cheek:'#fca5a5'},
-    fresh: {body:'<circle cx="70" cy="75" r="55" fill="'+c+'" opacity=".10"/><circle cx="70" cy="72" r="48" fill="'+c+'"/><ellipse cx="70" cy="130" rx="42" ry="18" fill="'+a+'" opacity=".2"/>', accessory:'<text x="70" y="78" text-anchor="middle" font-size="44">🍣</text>', cheek:'#a5f3fc'},
-    meat:  {body:'<circle cx="70" cy="75" r="55" fill="'+c+'" opacity=".15"/><circle cx="70" cy="72" r="48" fill="'+c+'"/><ellipse cx="70" cy="130" rx="42" ry="18" fill="'+a+'" opacity=".2"/>', accessory:'<text x="70" y="78" text-anchor="middle" font-size="44">🍖</text>', cheek:'#fde68a'},
-    carb:  {body:'<circle cx="70" cy="75" r="55" fill="'+c+'" opacity=".15"/><circle cx="70" cy="72" r="48" fill="'+c+'"/><ellipse cx="70" cy="130" rx="42" ry="18" fill="'+a+'" opacity=".2"/>', accessory:'<text x="70" y="78" text-anchor="middle" font-size="44">🍜</text>', cheek:'#fef08a'},
-    sweet: {body:'<circle cx="70" cy="75" r="55" fill="'+c+'" opacity=".12"/><circle cx="70" cy="72" r="48" fill="'+c+'"/><ellipse cx="70" cy="130" rx="42" ry="18" fill="'+a+'" opacity=".2"/>', accessory:'<text x="70" y="78" text-anchor="middle" font-size="44">🍰</text>', cheek:'#fbcfe8'},
-    globe: {body:'<circle cx="70" cy="75" r="55" fill="'+c+'" opacity=".12"/><circle cx="70" cy="72" r="48" fill="'+c+'"/><ellipse cx="70" cy="130" rx="42" ry="18" fill="'+a+'" opacity=".2"/>', accessory:'<text x="70" y="78" text-anchor="middle" font-size="42">🌍</text>', cheek:'#ddd6fe'},
+    spicy: {body:`<circle cx="70" cy="72" r="48" fill="${c}"/><ellipse cx="70" cy="130" rx="42" ry="18" fill="${a}" opacity=".2"/>`, accessory:`<text x="70" y="82" text-anchor="middle" font-size="42">🌶️</text>`, cheek:'#fca5a5'},
+    fresh: {body:`<circle cx="70" cy="72" r="48" fill="${c}"/><ellipse cx="70" cy="130" rx="42" ry="18" fill="${a}" opacity=".2"/>`, accessory:`<text x="70" y="82" text-anchor="middle" font-size="40">🍣</text>`, cheek:'#a5f3fc'},
+    meat:  {body:`<circle cx="70" cy="72" r="48" fill="${c}"/><ellipse cx="70" cy="130" rx="42" ry="18" fill="${a}" opacity=".2"/>`, accessory:`<text x="70" y="82" text-anchor="middle" font-size="40">🍖</text>`, cheek:'#fde68a'},
+    carb:  {body:`<circle cx="70" cy="72" r="48" fill="${c}"/><ellipse cx="70" cy="130" rx="42" ry="18" fill="${a}" opacity=".2"/>`, accessory:`<text x="70" y="82" text-anchor="middle" font-size="40">🍜</text>`, cheek:'#fef08a'},
+    sweet: {body:`<circle cx="70" cy="72" r="48" fill="${c}"/><ellipse cx="70" cy="130" rx="42" ry="18" fill="${a}" opacity=".2"/>`, accessory:`<text x="70" y="82" text-anchor="middle" font-size="40">🍰</text>`, cheek:'#fbcfe8'},
+    globe: {body:`<circle cx="70" cy="72" r="48" fill="${c}"/><ellipse cx="70" cy="130" rx="42" ry="18" fill="${a}" opacity=".2"/>`, accessory:`<text x="70" y="82" text-anchor="middle" font-size="38">🌍</text>`, cheek:'#ddd6fe'},
+    easy:  {body:`<circle cx="70" cy="72" r="48" fill="${c}"/><ellipse cx="70" cy="130" rx="42" ry="18" fill="${a}" opacity=".2"/>`, accessory:`<text x="70" y="82" text-anchor="middle" font-size="40">🥗</text>`, cheek:'#d4edaa'}
   };
   const tf = typeFeatures[typeKey];
 
-  // Eyes & mouth per personality
   let eyes='', mouth='', extra='';
   switch(persKey) {
     case 'radical':
       eyes = '<ellipse cx="52" cy="68" rx="7" ry="7" fill="#1c1917"/><ellipse cx="88" cy="68" rx="7" ry="7" fill="#1c1917"/><ellipse cx="52" cy="66" rx="3.5" ry="3.5" fill="#fff"/><ellipse cx="88" cy="66" rx="3.5" ry="3.5" fill="#fff"/><line x1="42" y1="58" x2="56" y2="60" stroke="#1c1917" stroke-width="3.5" stroke-linecap="round"/><line x1="84" y1="60" x2="98" y2="58" stroke="#1c1917" stroke-width="3.5" stroke-linecap="round"/>';
       mouth = '<path d="M52 92 Q70 108 88 92" fill="none" stroke="#1c1917" stroke-width="3" stroke-linecap="round"/>';
-      extra = '<text x="94" y="58" font-size="18">⚡</text>';
+      extra = `<text x="93" y="60" font-size="16">⚡</text><circle cx="70" cy="48" r="8" fill="${a}" opacity=".3"/>`;
       break;
     case 'scholar':
       eyes = '<ellipse cx="52" cy="68" rx="6" ry="6.5" fill="#1c1917"/><ellipse cx="88" cy="68" rx="6" ry="6.5" fill="#1c1917"/><ellipse cx="51" cy="66" rx="2.5" ry="2.5" fill="#fff"/><ellipse cx="87" cy="66" rx="2.5" ry="2.5" fill="#fff"/>';
       mouth = '<path d="M56 93 Q70 100 84 93" fill="none" stroke="#1c1917" stroke-width="2.5" stroke-linecap="round"/>';
-      extra = '<rect x="42" y="60" width="20" height="11" rx="5" fill="none" stroke="#1c1917" stroke-width="2.5"/><rect x="78" y="60" width="20" height="11" rx="5" fill="none" stroke="#1c1917" stroke-width="2.5"/><line x1="62" y1="65" x2="78" y2="65" stroke="#1c1917" stroke-width="1.5"/><text x="42" y="88" font-size="14">🔍</text>';
+      extra = '<rect x="42" y="60" width="20" height="11" rx="5" fill="none" stroke="#1c1917" stroke-width="2.5"/><rect x="78" y="60" width="20" height="11" rx="5" fill="none" stroke="#1c1917" stroke-width="2.5"/><line x1="62" y1="65" x2="78" y2="65" stroke="#1c1917" stroke-width="1.5"/><text x="44" y="90" font-size="12">🔍</text>';
       break;
     case 'social':
       eyes = '<ellipse cx="52" cy="67" rx="6" ry="7" fill="#1c1917"/><ellipse cx="88" cy="67" rx="6" ry="7" fill="#1c1917"/><ellipse cx="50" cy="65" rx="3.5" ry="3.5" fill="#fff"/><ellipse cx="86" cy="65" rx="3.5" ry="3.5" fill="#fff"/><circle cx="90" cy="65" r="2.5" fill="#fff" opacity=".8"/><circle cx="92" cy="63" r="1.5" fill="#fff" opacity=".6"/>';
       mouth = '<path d="M54 92 Q70 108 86 92" fill="none" stroke="#1c1917" stroke-width="3" stroke-linecap="round"/>';
-      extra = '<text x="50" y="55" font-size="16">✨</text><text x="90" y="55" font-size="16">✨</text><circle cx="42" cy="72" r="8" fill="#fca5a5" opacity=".5"/><circle cx="98" cy="72" r="8" fill="#fca5a5" opacity=".5"/>';
+      extra = '<text x="48" y="56" font-size="14">✨</text><text x="92" y="56" font-size="14">✨</text><circle cx="42" cy="72" r="8" fill="#fca5a5" opacity=".5"/><circle cx="98" cy="72" r="8" fill="#fca5a5" opacity=".5"/>';
       break;
     case 'zen':
       eyes = '<path d="M44 68 Q52 62 60 68" fill="none" stroke="#1c1917" stroke-width="3" stroke-linecap="round"/><path d="M80 68 Q88 62 96 68" fill="none" stroke="#1c1917" stroke-width="3" stroke-linecap="round"/>';
       mouth = '<path d="M56 94 Q70 102 84 94" fill="none" stroke="#1c1917" stroke-width="2.5" stroke-linecap="round"/>';
-      extra = '<text x="56" y="50" font-size="14">☁️</text><text x="84" y="50" font-size="14">☁️</text>';
+      extra = `<text x="56" y="52" font-size="12">☁️</text><text x="84" y="52" font-size="12">☁️</text><circle cx="70" cy="115" r="6" fill="${c}" opacity=".3"/>`;
       break;
   }
 
   return `<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
-    <defs><radialGradient id="grad" cx="50%" cy="40%" r="60%"><stop offset="0%" stop-color="${b}"/><stop offset="100%" stop-color="${c}" stop-opacity=".15"/></radialGradient></defs>
+    <defs><radialGradient id="grad" cx="50%" cy="40%" r="60%"><stop offset="0%" stop-color="${b}"/><stop offset="100%" stop-color="${c}" stop-opacity=".12"/></radialGradient></defs>
     <rect width="140" height="140" fill="url(#grad)" rx="60"/>
     ${tf.body}
     ${extra}
@@ -438,98 +453,95 @@ function makeSvg(typeKey, persKey) {
   </svg>`;
 }
 
-// ============ GAME STATE ============
-let typeScores = {spicy:0,fresh:0,meat:0,carb:0,sweet:0,globe:0};
+// =========== GAME STATE ===========
+let typeScores = {spicy:0,fresh:0,meat:0,carb:0,sweet:0,globe:0,easy:0};
 let persScores = {radical:0,scholar:0,social:0,zen:0};
 let currentQ = 0;
 const TQ = QUESTIONS.length;
 
-const $=id=>document.getElementById(id);
+const $ = id => document.getElementById(id);
 function showSc(id){
-  ['welcome','quiz','loading','result'].forEach(s=>$('sc-'+s).classList.remove('active'));
+  ['welcome','quiz','loading','result'].forEach(s => $('sc-'+s).classList.remove('active'));
   $('sc-'+id).classList.add('active');
 }
-
 function toast(m){
-  const t=$('toast');t.textContent=m;t.classList.add('show');
+  const t = $('toast'); t.textContent = m; t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2200);
 }
-
 function confetti(){
-  const wrap=$('confetti');wrap.innerHTML='';
-  const emojis=['🍕','🍔','🌮','🍣','🍩','🧁','🍜','🌶️','🍖','🍰','🧋','🍪','🥟','🍿','🍦','🥐'];
+  const wrap = $('confetti'); wrap.innerHTML = '';
+  const emojis = ['🍕','🍔','🌮','🍣','🍩','🧁','🍜','🌶️','🍖','🍰','🧋','🍪','🥟','🍿','🍦','🥐'];
   for(let i=0;i<40;i++){
-    const p=document.createElement('div');p.className='confetti-piece';
-    p.style.left=Math.random()*100+'%';
-    p.style.top=-(Math.random()*30+10)+'px';
-    p.style.fontSize=(16+Math.random()*20)+'px';
-    p.textContent=emojis[i%emojis.length];
-    p.style.animationDelay=Math.random()*1.2+'s';
-    p.style.animationDuration=(1.5+Math.random()*1.5)+'s';
+    const p = document.createElement('div'); p.className = 'confetti-piece';
+    p.style.left = Math.random()*100+'%';
+    p.style.top = -(Math.random()*30+10)+'px';
+    p.style.fontSize = (14+Math.random()*18)+'px';
+    p.textContent = emojis[i%emojis.length];
+    p.style.animationDelay = Math.random()*1.2+'s';
+    p.style.animationDuration = (1.5+Math.random()*1.5)+'s';
     wrap.appendChild(p);
   }
 }
 
-// ============ START ============
+// =========== START ===========
 function start(){
-  typeScores={spicy:0,fresh:0,meat:0,carb:0,sweet:0,globe:0};
-  persScores={radical:0,scholar:0,social:0,zen:0};
-  currentQ=0;
+  typeScores = {spicy:0,fresh:0,meat:0,carb:0,sweet:0,globe:0,easy:0};
+  persScores = {radical:0,scholar:0,social:0,zen:0};
+  currentQ = 0;
   showSc('quiz');
-  $('progress-bar').style.display='block';
+  $('progress-bar').style.display = 'block';
   renderQ();
 }
 
-// ============ RENDER QUESTION ============
+// =========== RENDER QUESTION ===========
 function renderQ(){
-  const q=QUESTIONS[currentQ];
-  $('pf').style.width=((currentQ+1)/TQ*100)+'%';
-  $('pt').textContent=(currentQ+1)+' / '+TQ;
-  $('qn').textContent='第'+(currentQ+1)+'题';
-  $('qt').textContent=q.q;
-  const cont=$('qo');cont.innerHTML='';
-  q.opts.forEach((o,i)=>{
-    const b=document.createElement('button');
-    b.className='opt-btn';
-    b.style.animation='fadeIn .35s ease '+i*.07+'s both';
-    b.innerHTML='<span class="opt-emoji">'+o.e+'</span><span class="opt-label">'+o.t+'</span>';
-    b.onclick=()=>select(o.tk,o.pk,b);
+  const q = QUESTIONS[currentQ];
+  $('pf').style.width = ((currentQ+1)/TQ*100)+'%';
+  $('pt').textContent = (currentQ+1)+' / '+TQ;
+  $('qn').textContent = '第'+(currentQ+1)+'题';
+  $('qt').textContent = q.q;
+  const cont = $('qo'); cont.innerHTML = '';
+  q.opts.forEach((o,i) => {
+    const b = document.createElement('button');
+    b.className = 'opt-btn';
+    b.style.animation = 'fadeIn .35s ease '+i*0.07+'s both';
+    b.innerHTML = '<span class="opt-emoji">'+o.e+'</span><span class="opt-label">'+o.t+'</span>';
+    b.onclick = () => select(o.tk,o.pk,b);
     cont.appendChild(b);
   });
-  $('qc').style.animation='none';
-  requestAnimationFrame(()=>{$('qc').style.animation='fadeIn .3s ease'});
+  $('qc').style.animation = 'none';
+  requestAnimationFrame(() => { $('qc').style.animation = 'fadeIn .3s ease' });
 }
-
 function select(tk,pk,btn){
-  document.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+  document.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
   btn.classList.add('selected');
-  typeScores[tk]++;persScores[pk]++;
+  typeScores[tk]++; persScores[pk]++;
   setTimeout(()=>{
     currentQ++;
-    if(currentQ<TQ) renderQ();else showResult();
+    if(currentQ < TQ) renderQ(); else showResult();
   },350);
 }
 
-// ============ SHOW RESULT ============
+// =========== SHOW RESULT ===========
 function showResult(){
-  showSc('loading');$('progress-bar').style.display='none';
-  const lts=['扫描外卖订单记录…','分析辣椒素耐受力…','计算奶茶含糖量曲线…','评估碳水摄入模式…','比对国际美食频率…','鉴定吃货人格中…'];
-  let i=0;const iv=setInterval(()=>{$('lt').textContent=lts[i=(i+1)%lts.length]},700);
+  showSc('loading'); $('progress-bar').style.display = 'none';
+  const lts = ['扫描外卖订单记录…','分析味觉基因…','计算奶茶含糖量…','评估碳水摄入模式…','比对国际美食频率…','鉴定吃货人格中…'];
+  let i = 0; const iv = setInterval(()=>{ $('lt').textContent = lts[i=(i+1)%lts.length] },700);
 
   setTimeout(()=>{
     clearInterval(iv);
-    let bestT='spicy',bestS=0;
-    for(const[k,v]of Object.entries(typeScores)){if(v>bestS){bestS=v;bestT=k}}
-    const tiesT=Object.entries(typeScores).filter(([,v])=>v===bestS).map(([k])=>k);
-    const topT=tiesT[Math.floor(Math.random()*tiesT.length)];
+    let bestT='spicy', bestS=0;
+    for(const [k,v] of Object.entries(typeScores)){ if(v>bestS){ bestS=v; bestT=k } }
+    const tiesT = Object.entries(typeScores).filter(([,v])=>v===bestS).map(([k])=>k);
+    const topT = tiesT[Math.floor(Math.random()*tiesT.length)];
 
-    let bestP='radical';bestS=0;
-    for(const[k,v]of Object.entries(persScores)){if(v>bestS){bestS=v;bestP=k}}
-    const tiesP=Object.entries(persScores).filter(([,v])=>v===bestS).map(([k])=>k);
-    const topP=tiesP[Math.floor(Math.random()*tiesP.length)];
+    let bestP='radical', bestS2=0;
+    for(const [k,v] of Object.entries(persScores)){ if(v>bestS2){ bestS2=v; bestP=k } }
+    const tiesP = Object.entries(persScores).filter(([,v])=>v===bestS2).map(([k])=>k);
+    const topP = tiesP[Math.floor(Math.random()*tiesP.length)];
 
-    const key=topT+'_'+topP;
-    const r=RESULTS[key]||RESULTS[topT+'_zen'];
+    const key = topT+'_'+topP;
+    const r = RESULTS[key] || RESULTS[topT+'_zen'] || RESULTS['easy_zen'];
     renderResult(topT,topP,r);
     showSc('result');
     confetti();
@@ -537,9 +549,9 @@ function showResult(){
 }
 
 function renderResult(tk,pk,r){
-  const tm=TYPE_META[tk],pm=PERS_META[pk];
-  const tags=r.cuisines.split(' ').map(c=>'<span class="cuisine-tag">'+c+'</span>').join('');
-  $('rc').innerHTML=`
+  const tm = TYPE_META[tk], pm = PERS_META[pk];
+  const tags = r.cuisines.split(' ').map(c => '<span class="cuisine-tag">'+c+'</span>').join('');
+  $('rc').innerHTML = `
     <div class="res-avatar">${makeSvg(tk,pk)}</div>
     <div class="res-name">${r.title}</div>
     <div class="res-tag">${r.tag}</div>
@@ -553,17 +565,27 @@ function renderResult(tk,pk,r){
     </div>`;
 }
 
-// ============ SHARE ============
+// =========== SHARE (includes URL) ===========
 function shareRes(tk,pk){
-  const key=tk+'_'+pk;
-  const r=RESULTS[key]||RESULTS[tk+'_zen'];
-  const txt='🍽️ 我是【'+r.title+'】——'+r.tag+'\n\n「'+r.quote+'」\n\n测测你是哪种吃货？24种人格等你来鉴定！';
-  const url=window.location.href.split('?')[0];
-  if(navigator.share){navigator.share({title:'你是哪种吃货？',text:txt,url}).catch(()=>{})}
-  else{
-    const full=txt+'\n'+url;
-    if(navigator.clipboard){navigator.clipboard.writeText(full).then(()=>toast('✅ 文案已复制，发给朋友吧！'))}
-    else{const ta=document.createElement('textarea');ta.value=full;ta.style.cssText='position:fixed;left:-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('✅ 文案已复制，发给朋友吧！')}
+  const key = tk+'_'+pk;
+  const r = RESULTS[key] || RESULTS[tk+'_zen'] || RESULTS['easy_zen'];
+  const txt = `🍽️ 我是【${r.title}】——${r.tag}\n\n「${r.quote}」\n\n测测你是哪种吃货？28种人格等你来鉴定！\n👉 https://msdodofee.github.io/foodie-quiz/`;
+  const url = 'https://msdodofee.github.io/foodie-quiz/';
+  if(navigator.share){
+    navigator.share({title:'你是哪种吃货？',text:txt,url}).catch(()=>{})
+  } else {
+    if(navigator.clipboard){
+      navigator.clipboard.writeText(txt).then(()=>toast('✅ 文案已复制，发给朋友吧！'))
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = txt;
+      ta.style.cssText = 'position:fixed;left:-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      toast('✅ 文案已复制，发给朋友吧！')
+    }
   }
 }
 </script>
