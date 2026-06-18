@@ -59,10 +59,12 @@ html,body{width:100%;min-height:100vh;font-family:-apple-system,BlinkMacSystemFo
 .opt-label{line-height:1.4}
 
 /* Result */
-.res-avatar{margin:0 auto 10px;position:relative}
-.res-avatar svg{width:130px;height:130px;filter:drop-shadow(0 3px 10px rgba(0,0,0,.06))}
-.res-name{font-size:26px;font-weight:900;background:linear-gradient(135deg,#d97706,#e11d48);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.res-tag{display:inline-block;background:#fef3c7;color:#92400e;padding:3px 12px;border-radius:16px;font-size:11px;font-weight:700;margin:6px 0 12px}
+.res-hero{position:relative;width:calc(100% + 36px);height:340px;overflow:hidden;border-radius:24px 24px 0 0;margin:-24px -18px 0}
+.res-hero-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:top center}
+.res-hero-fade{position:absolute;bottom:0;left:0;width:100%;height:60%;background:linear-gradient(to bottom,transparent 0%,rgba(255,255,255,0.6) 40%,#fff 100%);pointer-events:none}
+.res-card{padding:0 20px 20px}
+.res-name{font-size:26px;font-weight:900;position:relative;z-index:2;margin-top:-20px;background:linear-gradient(135deg,#d97706,#e11d48);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.res-tag{display:inline-block;background:#fef3c7;color:#92400e;padding:3px 12px;border-radius:16px;font-size:11px;font-weight:700;margin:6px 0 12px;position:relative;z-index:2}
 .res-desc{font-size:14px;line-height:1.8;color:#44403c;text-align:left;background:#fefbf5;border-radius:14px;padding:16px 14px;margin:12px 0;border-left:4px solid #f59e0b}
 .res-cuisines{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin:12px 0}
 .cuisine-tag{background:#fffbeb;color:#d97706;padding:4px 10px;border-radius:16px;font-size:11px;font-weight:600;border:1px solid #fde68a}
@@ -162,6 +164,34 @@ const TYPE_META = {
   sweet: {name:'🍰 甜味至上', emoji:'🍰', color:'#ec4899', bg:'#fdf2f8', accent:'#db2777', icon:'🍰'},
   globe: {name:'🌏 世界食者', emoji:'🌍', color:'#8b5cf6', bg:'#f5f3ff', accent:'#7c3aed', icon:'🌍'},
   easy:  {name:'🥗 佛系淡食', emoji:'🥗', color:'#84cc16', bg:'#f7fee7', accent:'#65a30d', icon:'🥗'}
+};
+// Pre-generated avatar PNGs — keyed by food type + personality (tk+pk), or food type only as fallback
+const AVATAR_IMG = {
+  // 🌶️ 辣系 - 龙珠风全身版
+  'spicy+radical': 'generated-images/Dragon_Ball_anime_art_style_by_2026-06-18T03-28-55.png',
+  'spicy+scholar': 'generated-images/Dragon_Ball_anime_art_style_by_2026-06-18T03-29-46.png',
+  'spicy+social':  'generated-images/Dragon_Ball_anime_art_style_by_2026-06-18T03-29-47.png',
+  'spicy+zen':     'generated-images/Dragon_Ball_anime_art_style_by_2026-06-18T03-29-00.png',
+  // 🍣 鲜味 - 彩云国物语风全身版（♂激进/社交，♀学术/随缘）
+  'fresh+radical': 'generated-images/Saiunkoku_Monogatari_anime_art_2026-06-18T03-36-08.png',
+  'fresh+scholar': 'generated-images/Saiunkoku_Monogatari_anime_art_2026-06-18T03-37-14.png',
+  'fresh+social':  'generated-images/Saiunkoku_Monogatari_anime_art_2026-06-18T03-36-12.png',
+  'fresh+zen':     'generated-images/Saiunkoku_Monogatari_anime_art_2026-06-18T03-37-16.png',
+  fresh: 'generated-images/1980s_Chinese_animation_style__2026-06-18T02-20-00.png',
+  // 🍖 肉食 - 北斗神拳风全身版（无背景）
+  'meat+radical': 'generated-images/Hokuto_no_Ken_1980s_retro_anim_2026-06-18T03-52-38.png',
+  'meat+scholar': 'generated-images/Hokuto_no_Ken_1980s_retro_anim_2026-06-18T03-53-05.png',
+  'meat+social':  'generated-images/Hokuto_no_Ken_1980s_retro_anim_2026-06-18T03-53-06.png',
+  'meat+zen':     'generated-images/Hokuto_no_Ken_1980s_retro_anim_2026-06-18T03-54-56.png',
+  meat:  'generated-images/Simple_cute_flat_vector_cartoo_2026-06-18T03-10-00.png',
+  // 🍰 甜味 - 宫崎骏风
+  sweet: 'generated-images/Studio_Ghibli_anime_style_illu_2026-06-18T03-09-55.png',
+  // 🍜 碳水 - MS Paint风
+  carb:  'generated-images/MS_Paint_style_crude_digital_d_2026-06-18T02-29-01.png',
+  // 🌍 国际 - 赛博朋克风
+  globe: 'generated-images/Cyberpunk_style_digital_art_of_2026-06-18T03-09-57.png',
+  // 🥗 淡食 - 待更新
+  easy:  'generated-images/Simple_cute_flat_vector_cartoo_2026-06-18T03-10-02.png'
 };
 const PERS_META = {
   radical:{name:'激进型', emoji:'⚡', desc:'走极端、不妥协、全速前进'},
@@ -315,141 +345,155 @@ const RESULTS = {
   }
 };
 
-// =========== 16 QUESTIONS (balanced, shorter) ===========
+// =========== 16 QUESTIONS — 有梗 · 短答案 · 国内饮食为主 ===========
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
 const QUESTIONS = [
-  {q:'深夜11点肚子叫了，你第一反应是？', opts:[
-    {t:'点超大份烧烤，不够再加', e:'🍖', tk:'meat', pk:'radical'},
-    {t:'煮碗泡面加个蛋，简单快乐', e:'🍜', tk:'carb', pk:'zen'},
-    {t:'翻冰箱看看有啥，精致夜宵安排', e:'🥢', tk:'fresh', pk:'scholar'},
-    {t:'懒得吃，喝水躺平', e:'🥗', tk:'easy', pk:'zen'}
-  ]},
-  {q:'朋友约新餐厅，你最关心？', opts:[
-    {t:'量够不够大，能不能造', e:'🍖', tk:'meat', pk:'radical'},
-    {t:'食材新不新鲜', e:'🍣', tk:'fresh', pk:'scholar'},
-    {t:'是不是异国料理，没吃过就冲', e:'🌍', tk:'globe', pk:'radical'},
-    {t:'离得远不远，太远就算了', e:'🥗', tk:'easy', pk:'zen'}
-  ]},
-  {q:'火锅蘸料，你最可能是？', opts:[
-    {t:'蒜泥+香油+小米辣，缺一样不完整', e:'🧄', tk:'spicy', pk:'social'},
-    {t:'海鲜酱油+葱花，简简单单吃原味', e:'🦪', tk:'fresh', pk:'zen'},
-    {t:'芝麻酱+韭菜花+腐乳，满满一大碗', e:'🥣', tk:'meat', pk:'social'},
-    {t:'随便搞搞就行，蘸料不重要', e:'🥗', tk:'easy', pk:'zen'}
-  ]},
-  {q:'去外地旅游，你找美食的方式？', opts:[
-    {t:'直接问当地朋友最辣的是什么', e:'🌶️', tk:'spicy', pk:'radical'},
-    {t:'按评分排序，只去4.8分以上的', e:'⭐', tk:'fresh', pk:'scholar'},
-    {t:'在地图标记所有异国菜，挨个打卡', e:'📍', tk:'globe', pk:'social'},
-    {t:'走到哪吃到哪，随便', e:'🚶', tk:'easy', pk:'zen'}
-  ]},
-  {q:'最不能接受的美食车祸？', opts:[
-    {t:'点了极辣结果跟清水煮的一样', e:'😤', tk:'spicy', pk:'zen'},
-    {t:'刺身不冰、虾不弹，食材明显不新鲜', e:'🤢', tk:'fresh', pk:'radical'},
-    {t:'花188块上来三口菜，盘子比脸大', e:'😡', tk:'meat', pk:'zen'},
-    {t:'根本不存在，我对吃没要求', e:'🤷', tk:'easy', pk:'zen'}
-  ]},
-  {q:'工作日午餐，你大概率在吃？', opts:[
-    {t:'黄焖鸡/盖饭/大碗面，吃饱再搬砖', e:'🍚', tk:'carb', pk:'radical'},
-    {t:'轻食沙拉，必须选最新鲜的店', e:'🥗', tk:'fresh', pk:'zen'},
-    {t:'今天韩式明天越南，天天换国家', e:'🔄', tk:'globe', pk:'social'},
-    {t:'有什么吃什么，食堂/外卖随机', e:'🤷', tk:'easy', pk:'zen'}
-  ]},
-  {q:'朋友眼里你的吃货人设是？', opts:[
-    {t:'"每次跟你吃饭我都得扶墙出来"', e:'🫃', tk:'meat', pk:'social'},
-    {t:'"你推荐的那家店食材太新鲜了"', e:'👑', tk:'fresh', pk:'social'},
-    {t:'"你在哪找的这么多奇奇怪怪的异国菜？"', e:'🕵️', tk:'globe', pk:'scholar'},
-    {t:'"你真的对吃没要求吗？"', e:'🤔', tk:'easy', pk:'zen'}
-  ]},
-  {q:'如果开一家餐厅，你选什么类型？', opts:[
-    {t:'大铁锅炖一切，肉管够饭管够', e:'🥘', tk:'meat', pk:'radical'},
-    {t:'日式割烹，每日只接待8人', e:'🇯🇵', tk:'fresh', pk:'radical'},
-    {t:'无国界融合菜，每周换国家', e:'🌀', tk:'globe', pk:'social'},
-    {t:'快餐连锁，三分钟出餐', e:'🍔', tk:'easy', pk:'radical'}
-  ]},
-  {q:'甜品对你来说是？', opts:[
-    {t:'不需要，正餐够爽就行', e:'🙅', tk:'spicy', pk:'radical'},
-    {t:'偶尔来一点，最好水果本身的清甜', e:'🍓', tk:'fresh', pk:'zen'},
-    {t:'红豆饭、八宝饭，甜的也能当饭吃', e:'🍚', tk:'carb', pk:'social'},
-    {t:'活下去的理由，没有甜品的一天不完整', e:'🍰', tk:'sweet', pk:'radical'}
-  ]},
-  {q:'跟人一起吃饭，你通常的角色？', opts:[
-    {t:'负责点菜，我知道哪家好吃', e:'📋', tk:'spicy', pk:'social'},
-    {t:'负责品鉴，每道菜上来先分析', e:'🧐', tk:'fresh', pk:'scholar'},
-    {t:'负责清盘："哎这个你们不吃了？"', e:'🫃', tk:'carb', pk:'radical'},
-    {t:'负责聊天，吃不吃无所谓', e:'💬', tk:'easy', pk:'social'}
-  ]},
-  {q:'你最常吃的零食？', opts:[
-    {t:'辣条/麻辣牛肉干/泡椒凤爪', e:'🥩', tk:'spicy', pk:'zen'},
-    {t:'海苔/鱿鱼丝/坚果/水果干', e:'🦑', tk:'fresh', pk:'zen'},
-    {t:'薯片/锅巴/肉脯，够大包才过瘾', e:'🍟', tk:'carb', pk:'zen'},
-    {t:'我不怎么吃零食', e:'🤷', tk:'easy', pk:'zen'}
-  ]},
-  {q:'你的美食相册里最多的是？', opts:[
-    {t:'满屏红油——火锅串串麻辣香锅', e:'🔴', tk:'spicy', pk:'social'},
-    {t:'精致摆盘——日料法餐私房菜', e:'📷', tk:'fresh', pk:'social'},
-    {t:'各国美食合集——每张都能开地理竞猜', e:'🗺️', tk:'globe', pk:'social'},
-    {t:'根本没有美食相册', e:'📵', tk:'easy', pk:'zen'}
-  ]},
-  {q:'一个人吃饭的时候你会？', opts:[
-    {t:'点上两三个菜，一个人也要仪式感', e:'🍽️', tk:'spicy', pk:'radical'},
-    {t:'认真吃每一口，没人打扰才能吃出层次', e:'🧘', tk:'fresh', pk:'scholar'},
-    {t:'随便吃点，然后买杯奶茶收尾', e:'🧋', tk:'sweet', pk:'zen'},
-    {t:'能不吃就不吃，省时间', e:'⏱️', tk:'easy', pk:'radical'}
-  ]},
-  {q:'给你一笔钱专门用来吃，你第一件事？', opts:[
-    {t:'飞重庆吃遍所有火锅，写辣度评测报告', e:'✈️', tk:'spicy', pk:'scholar'},
-    {t:'预约三家米其林，体验完整tasting menu', e:'⭐', tk:'fresh', pk:'radical'},
-    {t:'包场吃一次全牛宴+全羊宴', e:'🎉', tk:'meat', pk:'social'},
-    {t:'这钱我拿去干别的吧', e:'💰', tk:'easy', pk:'zen'}
-  ]},
-  {q:'你觉得"会吃"是什么意思？', opts:[
-    {t:'能吃辣、敢尝试、什么都敢下嘴', e:'🌶️', tk:'spicy', pk:'radical'},
-    {t:'懂食材、知出处、吃得有道理', e:'🧐', tk:'fresh', pk:'scholar'},
-    {t:'能找到别人找不到的好馆子', e:'🗺️', tk:'globe', pk:'social'},
-    {t:'不挑食、好养活、什么都行', e:'🤷', tk:'easy', pk:'zen'}
-  ]},
-  {q:'如果食物有段位，你在哪一段？', opts:[
-    {t:'王者段位，我吃过的你可能没听过', e:'👑', tk:'globe', pk:'scholar'},
-    {t:'黄金段位，好吃的和好看的我都懂', e:'📸', tk:'sweet', pk:'social'},
-    {t:'白银段位，好吃就行，不讲究', e:'🍜', tk:'carb', pk:'zen'},
-    {t:'我甚至不知道食物还有段位这种说法', e:'😅', tk:'easy', pk:'zen'}
-  ]}
+  {q:'凌晨两点饿醒了，打开手机第一件事？', opts:shuffle([
+    {t:'点烧烤外卖，不够再补', e:'🍖', tk:'meat', pk:'radical'},
+    {t:'翻冰箱，新鲜食材做夜宵', e:'🍣', tk:'fresh', pk:'scholar'},
+    {t:'煮泡面加蛋，夜宵之神', e:'🍜', tk:'carb', pk:'zen'},
+    {t:'点个小蛋糕+热奶茶', e:'🍰', tk:'sweet', pk:'radical'}
+  ])},
+  {q:'朋友说你"挑食"，你内心OS？', opts:shuffle([
+    {t:'不吃难吃的 = 挑食？', e:'🌶️', tk:'spicy', pk:'radical'},
+    {t:'对我只是对食材有底线', e:'🍣', tk:'fresh', pk:'scholar'},
+    {t:'我各国菜都吃，挑啥了', e:'🌍', tk:'globe', pk:'social'},
+    {t:'我什么都吃，是你们太不挑', e:'🤷', tk:'easy', pk:'zen'}
+  ])},
+  {q:'火锅蘸料打死不变的配方？', opts:shuffle([
+    {t:'香油蒜泥小米辣，缺一不可', e:'🧄', tk:'spicy', pk:'social'},
+    {t:'麻酱韭菜花腐乳，一大碗', e:'🥣', tk:'meat', pk:'social'},
+    {t:'海鲜酱油+葱花，原味就好', e:'🦪', tk:'fresh', pk:'zen'},
+    {t:'先来碗麻酱面，蘸料靠边', e:'🍜', tk:'carb', pk:'radical'}
+  ])},
+  {q:'最不能忍的吃饭翻车？', opts:shuffle([
+    {t:'点了特辣，结果寡淡如水', e:'😤', tk:'spicy', pk:'radical'},
+    {t:'食材不新鲜，一口下头', e:'🤢', tk:'fresh', pk:'radical'},
+    {t:'一百多块上来三口菜', e:'😡', tk:'meat', pk:'zen'},
+    {t:'奶茶半糖给了全糖', e:'😭', tk:'sweet', pk:'scholar'}
+  ])},
+  {q:'外卖收藏夹里的顶流是？', opts:shuffle([
+    {t:'川湘菜馆，无辣不欢', e:'🌶️', tk:'spicy', pk:'radical'},
+    {t:'粉面馆，碳水教信徒', e:'🍜', tk:'carb', pk:'radical'},
+    {t:'奶茶甜品店，精神支柱', e:'🍰', tk:'sweet', pk:'radical'},
+    {t:'日料/粤菜，食材为王', e:'🍣', tk:'fresh', pk:'scholar'}
+  ])},
+  {q:'你的 Comfort Food 是？', opts:shuffle([
+    {t:'麻辣烫，加麻加辣', e:'🌶️', tk:'spicy', pk:'zen'},
+    {t:'红烧肉配大米饭', e:'🍖', tk:'meat', pk:'zen'},
+    {t:'一块芝士蛋糕+热拿铁', e:'🍰', tk:'sweet', pk:'zen'},
+    {t:'妈妈煮的那碗面', e:'🍜', tk:'carb', pk:'zen'}
+  ])},
+  {q:'出去旅游找吃的，靠什么？', opts:shuffle([
+    {t:'看到本地人排队就跟', e:'👥', tk:'globe', pk:'social'},
+    {t:'走到哪吃哪，从不做计划', e:'🚶', tk:'easy', pk:'zen'},
+    {t:'点评搜索，4.8分起步', e:'⭐', tk:'fresh', pk:'scholar'},
+    {t:'直接问当地人最辣是哪家', e:'🌶️', tk:'spicy', pk:'radical'}
+  ])},
+  {q:'给你一笔"随便吃"经费？', opts:shuffle([
+    {t:'飞重庆，火锅吃到工伤', e:'✈️', tk:'spicy', pk:'scholar'},
+    {t:'连约三家米其林 tasting', e:'⭐', tk:'fresh', pk:'radical'},
+    {t:'包场来个全牛宴+全羊宴', e:'🐂', tk:'meat', pk:'social'},
+    {t:'一张机票，一个国家一道菜', e:'🌍', tk:'globe', pk:'radical'}
+  ])},
+  {q:'吃饭最让你抓狂的是？', opts:shuffle([
+    {t:'辣度不够，如同嚼蜡', e:'🌶️', tk:'spicy', pk:'radical'},
+    {t:'食材不新鲜，一秒暴怒', e:'🍣', tk:'fresh', pk:'scholar'},
+    {t:'量太少，完全吃不饱', e:'🍖', tk:'meat', pk:'radical'},
+    {t:'没啥抓狂的，吃啥都行', e:'🤷', tk:'easy', pk:'zen'}
+  ])},
+  {q:'同事说"随便吃点"，你内心？', opts:shuffle([
+    {t:'走，那家湘菜我馋很久了', e:'🌶️', tk:'spicy', pk:'social'},
+    {t:'周一泰餐周二意餐，安排', e:'🌍', tk:'globe', pk:'social'},
+    {t:'楼下那家面馆，量大管饱', e:'🍜', tk:'carb', pk:'social'},
+    {t:'行，食堂最快，省时间', e:'🥗', tk:'easy', pk:'radical'}
+  ])},
+  {q:'你觉得"会吃"的定义是？', opts:shuffle([
+    {t:'敢吃辣，敢尝新', e:'🌶️', tk:'spicy', pk:'radical'},
+    {t:'什么都敢试，百无禁忌', e:'🌍', tk:'globe', pk:'radical'},
+    {t:'能挖到别人找不到的店', e:'🗺️', tk:'globe', pk:'scholar'},
+    {t:'不挑食，好养活', e:'🤷', tk:'easy', pk:'zen'}
+  ])},
+  {q:'你家冰箱的含金量在于？', opts:shuffle([
+    {t:'老干妈和各类辣酱管够', e:'🌶️', tk:'spicy', pk:'zen'},
+    {t:'当天买的新鲜菜和鱼', e:'🐟', tk:'fresh', pk:'radical'},
+    {t:'速冻水饺手抓饼管够', e:'🥟', tk:'carb', pk:'zen'},
+    {t:'五国酱料一字排开', e:'🌍', tk:'globe', pk:'scholar'}
+  ])},
+  {q:'甜品对你来说意味着？', opts:shuffle([
+    {t:'活下去的理由', e:'🍰', tk:'sweet', pk:'radical'},
+    {t:'先拍照，再动叉子', e:'📸', tk:'sweet', pk:'social'},
+    {t:'水果本身的甜就很好', e:'🍓', tk:'fresh', pk:'zen'},
+    {t:'红豆沙八宝饭算甜食吗', e:'🍚', tk:'carb', pk:'social'}
+  ])},
+  {q:'一个人吃饭，什么状态？', opts:shuffle([
+    {t:'点两三个菜，仪式感到位', e:'🍽️', tk:'spicy', pk:'radical'},
+    {t:'安静品，没人吵才能吃出层次', e:'🧘', tk:'fresh', pk:'scholar'},
+    {t:'边刷剧边吃，开心就好', e:'📱', tk:'carb', pk:'zen'},
+    {t:'十分钟解决，活着就行', e:'⏱️', tk:'easy', pk:'radical'}
+  ])},
+  {q:'这辈子只让吃一个菜系？', opts:shuffle([
+    {t:'川渝，口味够重吃不腻', e:'🌶️', tk:'spicy', pk:'radical'},
+    {t:'广东，原汁原味百吃不厌', e:'🥟', tk:'fresh', pk:'zen'},
+    {t:'东北，量大实惠花样多', e:'🥘', tk:'meat', pk:'zen'},
+    {t:'选不了，世界这么大', e:'🌍', tk:'globe', pk:'radical'}
+  ])},
+  {q:'用一句话总结你跟食物的关系？', opts:shuffle([
+    {t:'不辣的人生不叫人生', e:'🌶️', tk:'spicy', pk:'radical'},
+    {t:'鲜甜是食物最高的荣耀', e:'🍣', tk:'fresh', pk:'scholar'},
+    {t:'大块吃肉等于大把幸福', e:'🍖', tk:'meat', pk:'radical'},
+    {t:'一碗面能解决所有问题', e:'🍜', tk:'carb', pk:'radical'}
+  ])}
 ];
 
 // =========== SVG CHARACTER GENERATOR ===========
+// Route to art style based on food type
 function makeSvg(typeKey, persKey) {
   const tm = TYPE_META[typeKey];
   const pm = PERS_META[persKey];
-  const c = tm.color, a = tm.accent, b = tm.bg;
+  switch(typeKey) {
+    case 'fresh': return makeAnime80s(tm, pm);
+    case 'sweet': return makeGhibli(tm, pm);
+    case 'carb':  return makeMsPaint(tm, pm);
+    case 'globe': return makeCyber(tm, pm);
+    default:      return makeDefault(tm, pm);
+  }
+}
 
+// ===== DEFAULT STYLE (spicy / meat / easy) =====
+function makeDefault(tm, pm) {
+  const c = tm.color, a = tm.accent, b = tm.bg;
   const typeFeatures = {
     spicy: {body:`<circle cx="70" cy="72" r="48" fill="${c}"/><ellipse cx="70" cy="130" rx="42" ry="18" fill="${a}" opacity=".2"/>`, accessory:`<text x="70" y="82" text-anchor="middle" font-size="42">🌶️</text>`, cheek:'#fca5a5'},
-    fresh: {body:`<circle cx="70" cy="72" r="48" fill="${c}"/><ellipse cx="70" cy="130" rx="42" ry="18" fill="${a}" opacity=".2"/>`, accessory:`<text x="70" y="82" text-anchor="middle" font-size="40">🍣</text>`, cheek:'#a5f3fc'},
     meat:  {body:`<circle cx="70" cy="72" r="48" fill="${c}"/><ellipse cx="70" cy="130" rx="42" ry="18" fill="${a}" opacity=".2"/>`, accessory:`<text x="70" y="82" text-anchor="middle" font-size="40">🍖</text>`, cheek:'#fde68a'},
-    carb:  {body:`<circle cx="70" cy="72" r="48" fill="${c}"/><ellipse cx="70" cy="130" rx="42" ry="18" fill="${a}" opacity=".2"/>`, accessory:`<text x="70" y="82" text-anchor="middle" font-size="40">🍜</text>`, cheek:'#fef08a'},
-    sweet: {body:`<circle cx="70" cy="72" r="48" fill="${c}"/><ellipse cx="70" cy="130" rx="42" ry="18" fill="${a}" opacity=".2"/>`, accessory:`<text x="70" y="82" text-anchor="middle" font-size="40">🍰</text>`, cheek:'#fbcfe8'},
-    globe: {body:`<circle cx="70" cy="72" r="48" fill="${c}"/><ellipse cx="70" cy="130" rx="42" ry="18" fill="${a}" opacity=".2"/>`, accessory:`<text x="70" y="82" text-anchor="middle" font-size="38">🌍</text>`, cheek:'#ddd6fe'},
     easy:  {body:`<circle cx="70" cy="72" r="48" fill="${c}"/><ellipse cx="70" cy="130" rx="42" ry="18" fill="${a}" opacity=".2"/>`, accessory:`<text x="70" y="82" text-anchor="middle" font-size="40">🥗</text>`, cheek:'#d4edaa'}
   };
-  const tf = typeFeatures[typeKey];
+  const cf = c==='#ef4444'?typeFeatures.spicy:c==='#d97706'?typeFeatures.meat:typeFeatures.easy;
 
   let eyes='', mouth='', extra='';
-  switch(persKey) {
-    case 'radical':
+  switch(pm.emoji) {
+    case '⚡':
       eyes = '<ellipse cx="52" cy="68" rx="7" ry="7" fill="#1c1917"/><ellipse cx="88" cy="68" rx="7" ry="7" fill="#1c1917"/><ellipse cx="52" cy="66" rx="3.5" ry="3.5" fill="#fff"/><ellipse cx="88" cy="66" rx="3.5" ry="3.5" fill="#fff"/><line x1="42" y1="58" x2="56" y2="60" stroke="#1c1917" stroke-width="3.5" stroke-linecap="round"/><line x1="84" y1="60" x2="98" y2="58" stroke="#1c1917" stroke-width="3.5" stroke-linecap="round"/>';
       mouth = '<path d="M52 92 Q70 108 88 92" fill="none" stroke="#1c1917" stroke-width="3" stroke-linecap="round"/>';
       extra = `<text x="93" y="60" font-size="16">⚡</text><circle cx="70" cy="48" r="8" fill="${a}" opacity=".3"/>`;
       break;
-    case 'scholar':
+    case '🧐':
       eyes = '<ellipse cx="52" cy="68" rx="6" ry="6.5" fill="#1c1917"/><ellipse cx="88" cy="68" rx="6" ry="6.5" fill="#1c1917"/><ellipse cx="51" cy="66" rx="2.5" ry="2.5" fill="#fff"/><ellipse cx="87" cy="66" rx="2.5" ry="2.5" fill="#fff"/>';
       mouth = '<path d="M56 93 Q70 100 84 93" fill="none" stroke="#1c1917" stroke-width="2.5" stroke-linecap="round"/>';
       extra = '<rect x="42" y="60" width="20" height="11" rx="5" fill="none" stroke="#1c1917" stroke-width="2.5"/><rect x="78" y="60" width="20" height="11" rx="5" fill="none" stroke="#1c1917" stroke-width="2.5"/><line x1="62" y1="65" x2="78" y2="65" stroke="#1c1917" stroke-width="1.5"/><text x="44" y="90" font-size="12">🔍</text>';
       break;
-    case 'social':
+    case '🎉':
       eyes = '<ellipse cx="52" cy="67" rx="6" ry="7" fill="#1c1917"/><ellipse cx="88" cy="67" rx="6" ry="7" fill="#1c1917"/><ellipse cx="50" cy="65" rx="3.5" ry="3.5" fill="#fff"/><ellipse cx="86" cy="65" rx="3.5" ry="3.5" fill="#fff"/><circle cx="90" cy="65" r="2.5" fill="#fff" opacity=".8"/><circle cx="92" cy="63" r="1.5" fill="#fff" opacity=".6"/>';
       mouth = '<path d="M54 92 Q70 108 86 92" fill="none" stroke="#1c1917" stroke-width="3" stroke-linecap="round"/>';
       extra = '<text x="48" y="56" font-size="14">✨</text><text x="92" y="56" font-size="14">✨</text><circle cx="42" cy="72" r="8" fill="#fca5a5" opacity=".5"/><circle cx="98" cy="72" r="8" fill="#fca5a5" opacity=".5"/>';
       break;
-    case 'zen':
+    case '😌':
       eyes = '<path d="M44 68 Q52 62 60 68" fill="none" stroke="#1c1917" stroke-width="3" stroke-linecap="round"/><path d="M80 68 Q88 62 96 68" fill="none" stroke="#1c1917" stroke-width="3" stroke-linecap="round"/>';
       mouth = '<path d="M56 94 Q70 102 84 94" fill="none" stroke="#1c1917" stroke-width="2.5" stroke-linecap="round"/>';
       extra = `<text x="56" y="52" font-size="12">☁️</text><text x="84" y="52" font-size="12">☁️</text><circle cx="70" cy="115" r="6" fill="${c}" opacity=".3"/>`;
@@ -457,13 +501,239 @@ function makeSvg(typeKey, persKey) {
   }
 
   return `<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
-    <defs><radialGradient id="grad" cx="50%" cy="40%" r="60%"><stop offset="0%" stop-color="${b}"/><stop offset="100%" stop-color="${c}" stop-opacity=".12"/></radialGradient></defs>
-    <rect width="140" height="140" fill="url(#grad)" rx="60"/>
-    ${tf.body}
+    <defs><radialGradient id="gd" cx="50%" cy="40%" r="60%"><stop offset="0%" stop-color="${b}"/><stop offset="100%" stop-color="${c}" stop-opacity=".12"/></radialGradient></defs>
+    <rect width="140" height="140" fill="url(#gd)" rx="60"/>
+    ${cf.body}
     ${extra}
     ${eyes}
     ${mouth}
-    ${tf.accessory}
+    ${cf.accessory}
+  </svg>`;
+}
+
+// ===== 80s ANIME STYLE (鲜 / fresh) =====
+function makeAnime80s(tm, pm) {
+  const c = tm.color, a = tm.accent, b = tm.bg;
+  let eyes='', mouth='', hair='', fx='';
+  switch(pm.emoji) {
+    case '⚡': // radical
+      eyes = `<ellipse cx="47" cy="60" rx="9" ry="11" fill="#1a1a2e"/>
+<ellipse cx="47" cy="56" rx="5" ry="6" fill="#fff"/>
+<ellipse cx="43" cy="54" rx="2.5" ry="3.5" fill="#fff"/>
+<ellipse cx="93" cy="60" rx="9" ry="11" fill="#1a1a2e"/>
+<ellipse cx="93" cy="56" rx="5" ry="6" fill="#fff"/>
+<ellipse cx="89" cy="54" rx="2.5" ry="3.5" fill="#fff"/>
+<line x1="33" y1="47" x2="55" y2="49" stroke="#1a1a2e" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="85" y1="49" x2="107" y2="47" stroke="#1a1a2e" stroke-width="3.5" stroke-linecap="round"/>`;
+      mouth = `<path d="M52 86 Q70 100 88 86" fill="none" stroke="#1a1a2e" stroke-width="2.5" stroke-linecap="round"/>`;
+      hair = `<polygon points="70,18 52,38 42,22" fill="${a}"/><polygon points="70,18 88,38 98,22" fill="${a}"/><polygon points="55,42 38,30 32,42 42,50" fill="${a}" opacity=".8"/><polygon points="85,42 102,30 108,42 98,50" fill="${a}" opacity=".8"/>`;
+      fx = `<text x="30" y="38" font-size="12" fill="${a}">✦</text><text x="102" y="32" font-size="9" fill="${a}">✦</text><text x="12" y="60" font-size="8" fill="${a}">✦</text>`;
+      break;
+    case '🧐': // scholar
+      eyes = `<ellipse cx="47" cy="60" rx="8" ry="10" fill="#1a1a2e"/>
+<ellipse cx="47" cy="57" rx="4" ry="5" fill="#fff"/>
+<ellipse cx="44" cy="55" rx="2" ry="2.5" fill="#fff"/>
+<ellipse cx="93" cy="60" rx="8" ry="10" fill="#1a1a2e"/>
+<ellipse cx="93" cy="57" rx="4" ry="5" fill="#fff"/>
+<ellipse cx="90" cy="55" rx="2" ry="2.5" fill="#fff"/>`;
+      mouth = `<path d="M58 87 Q70 95 82 87" fill="none" stroke="#1a1a2e" stroke-width="2" stroke-linecap="round"/>`;
+      hair = `<path d="M30 40 Q40 20 70 22 Q100 20 110 40" fill="${a}" opacity=".9"/><path d="M36 42 Q38 28 48 30" fill="${a}" opacity=".7"/>`;
+      fx = `<rect x="36" y="52" width="22" height="12" rx="6" fill="none" stroke="#1a1a2e" stroke-width="2.5"/><rect x="82" y="52" width="22" height="12" rx="6" fill="none" stroke="#1a1a2e" stroke-width="2.5"/><line x1="58" y1="58" x2="82" y2="58" stroke="#1a1a2e" stroke-width="1.5"/><text x="36" y="92" font-size="10">🔬</text>`;
+      break;
+    case '🎉': // social
+      eyes = `<ellipse cx="47" cy="58" rx="9" ry="10" fill="#1a1a2e"/>
+<ellipse cx="47" cy="54" rx="5.5" ry="6.5" fill="#fff"/>
+<ellipse cx="43" cy="52" rx="3" ry="4" fill="#fff"/>
+<ellipse cx="93" cy="58" rx="9" ry="10" fill="#1a1a2e"/>
+<ellipse cx="93" cy="54" rx="5.5" ry="6.5" fill="#fff"/>
+<ellipse cx="89" cy="52" rx="3" ry="4" fill="#fff"/>
+<circle cx="98" cy="52" r="3" fill="#fff" opacity=".7"/>
+<circle cx="101" cy="49" r="2" fill="#fff" opacity=".5"/>`;
+      mouth = `<path d="M52 84 Q70 104 88 84" fill="none" stroke="#1a1a2e" stroke-width="3" stroke-linecap="round"/>`;
+      hair = `<path d="M30 42 Q35 18 70 16 Q105 18 110 42" fill="${a}" opacity=".85"/><path d="M34 40 Q36 22 50 28" fill="${a}" opacity=".5"/><path d="M106 40 Q104 22 90 28" fill="${a}" opacity=".5"/>`;
+      fx = `<text x="25" y="30" font-size="14">✨</text><text x="100" y="28" font-size="12">✨</text><circle cx="38" cy="72" r="10" fill="#fca5a5" opacity=".45"/><circle cx="102" cy="72" r="10" fill="#fca5a5" opacity=".45"/>`;
+      break;
+    default: // zen
+      eyes = `<path d="M36 60 Q47 50 58 60" fill="none" stroke="#1a1a2e" stroke-width="3" stroke-linecap="round"/>
+<path d="M82 60 Q93 50 104 60" fill="none" stroke="#1a1a2e" stroke-width="3" stroke-linecap="round"/>`;
+      mouth = `<path d="M56 88 Q70 98 84 88" fill="none" stroke="#1a1a2e" stroke-width="2.5" stroke-linecap="round"/>`;
+      hair = `<path d="M32 42 Q40 24 70 26 Q100 24 108 42" fill="${a}" opacity=".7"/>`;
+      fx = `<text x="48" y="35" font-size="10">🌸</text><text x="90" y="30" font-size="8">🌸</text><text x="70" y="22" font-size="7">🌸</text>`;
+  }
+  return `<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="ag" cx="50%" cy="35%" r="65%"><stop offset="0%" stop-color="${b}"/><stop offset="60%" stop-color="${c}" stop-opacity=".15"/><stop offset="100%" stop-color="${a}" stop-opacity=".05"/></radialGradient>
+      <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fff"/><stop offset="100%" stop-color="${b}"/></linearGradient>
+    </defs>
+    <rect width="140" height="140" fill="url(#ag)" rx="40"/>
+    ${hair}
+    <ellipse cx="70" cy="72" rx="43" ry="49" fill="url(#skin)" stroke="${a}" stroke-width="1" opacity=".3"/>
+    <ellipse cx="52" cy="78" rx="11" ry="7" fill="#fca5a5" opacity=".4"/>
+    <ellipse cx="88" cy="78" rx="11" ry="7" fill="#fca5a5" opacity=".4"/>
+    ${eyes}
+    ${mouth}
+    ${fx}
+    <text x="108" y="115" font-size="34">🍣</text>
+    <!-- speed lines -->
+    <line x1="18" y1="95" x2="28" y2="95" stroke="${a}" stroke-width="1.5" opacity=".4"/><line x1="14" y1="102" x2="26" y2="102" stroke="${a}" stroke-width="1.5" opacity=".3"/><line x1="16" y1="109" x2="24" y2="109" stroke="${a}" stroke-width="1" opacity=".2"/>
+  </svg>`;
+}
+
+// ===== GHIBLI STYLE (甜 / sweet) =====
+function makeGhibli(tm, pm) {
+  const c = tm.color, a = tm.accent;
+  let eyes='', mouth='', nature='';
+  switch(pm.emoji) {
+    case '⚡': // radical
+      eyes = `<circle cx="52" cy="65" r="5" fill="#2d1b0e"/><circle cx="88" cy="65" r="5" fill="#2d1b0e"/>`;
+      mouth = `<path d="M55 82 Q70 96 85 82" fill="none" stroke="#2d1b0e" stroke-width="2.5" stroke-linecap="round"/>`;
+      nature = `<text x="22" y="55" font-size="14">🌻</text><text x="108" y="62" font-size="12">🍂</text>`;
+      break;
+    case '🧐': // scholar
+      eyes = `<circle cx="52" cy="65" r="4.5" fill="#2d1b0e"/><circle cx="50" cy="63" r="1.5" fill="#fff"/><circle cx="88" cy="65" r="4.5" fill="#2d1b0e"/><circle cx="86" cy="63" r="1.5" fill="#fff"/>`;
+      mouth = `<path d="M58 84 Q70 92 82 84" fill="none" stroke="#2d1b0e" stroke-width="2" stroke-linecap="round"/>`;
+      nature = `<text x="20" y="48" font-size="12">📖</text><text x="105" y="70" font-size="10">🍃</text>`;
+      break;
+    case '🎉': // social
+      eyes = `<path d="M44 66 Q52 60 60 66" fill="none" stroke="#2d1b0e" stroke-width="3" stroke-linecap="round"/><path d="M80 66 Q88 60 96 66" fill="none" stroke="#2d1b0e" stroke-width="3" stroke-linecap="round"/>`;
+      mouth = `<path d="M52 82 Q70 100 88 82" fill="none" stroke="#2d1b0e" stroke-width="2.5" stroke-linecap="round"/>`;
+      nature = `<text x="18" y="45" font-size="14">🌸</text><text x="108" y="50" font-size="16">🌷</text><text x="115" y="80" font-size="10">🍃</text>`;
+      break;
+    default: // zen
+      eyes = `<path d="M44 68 Q52 64 60 68" fill="none" stroke="#2d1b0e" stroke-width="2.5" stroke-linecap="round"/><path d="M80 68 Q88 64 96 68" fill="none" stroke="#2d1b0e" stroke-width="2.5" stroke-linecap="round"/>`;
+      mouth = `<path d="M58 86 Q70 94 82 86" fill="none" stroke="#2d1b0e" stroke-width="2" stroke-linecap="round"/>`;
+      nature = `<text x="24" y="60" font-size="11">🌿</text><text x="100" y="55" font-size="10">☘️</text><text x="16" y="85" font-size="8">🍀</text>`;
+  }
+  return `<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="ghg" cx="45%" cy="40%" r="65%">
+        <stop offset="0%" stop-color="#fef9ef"/><stop offset="40%" stop-color="#fef0d4"/><stop offset="80%" stop-color="${c}" stop-opacity=".08"/><stop offset="100%" stop-color="#e8d5b7" stop-opacity=".2"/>
+      </radialGradient>
+    </defs>
+    <rect width="140" height="140" fill="url(#ghg)" rx="70"/>
+    <!-- soft ground shadow -->
+    <ellipse cx="70" cy="130" rx="48" ry="12" fill="#d4b896" opacity=".12"/>
+    ${nature}
+    <!-- round ghibli face -->
+    <circle cx="70" cy="70" r="44" fill="#fef9f0" stroke="#e8d5b7" stroke-width="2"/>
+    <!-- tiny nose -->
+    <path d="M68 73 Q70 76 72 73" fill="none" stroke="#d4b896" stroke-width="1.5" stroke-linecap="round"/>
+    <!-- blush -->
+    <ellipse cx="42" cy="76" rx="10" ry="6" fill="${c}" opacity=".15"/>
+    <ellipse cx="98" cy="76" rx="10" ry="6" fill="${c}" opacity=".15"/>
+    ${eyes}
+    ${mouth}
+    <!-- ghibli-style soft hair wisps -->
+    <path d="M28 48 Q38 30 70 28 Q102 30 112 48" fill="none" stroke="#a0845c" stroke-width="2" opacity=".5"/>
+    <path d="M30 52 Q40 36 55 34" fill="none" stroke="#a0845c" stroke-width="1.5" opacity=".3"/>
+    <path d="M110 52 Q100 36 85 34" fill="none" stroke="#a0845c" stroke-width="1.5" opacity=".3"/>
+    <text x="102" y="115" font-size="32">🍰</text>
+  </svg>`;
+}
+
+// ===== MS PAINT STYLE (碳水 / carb) =====
+function makeMsPaint(tm, pm) {
+  const c = tm.color, a = tm.accent;
+  // jagged circle to simulate rough MS Paint drawing
+  const jaggedCircle = `M46,28 L58,22 L72,24 L86,26 L98,34 L108,46 L114,60 L116,76 L112,90 L104,102 L90,110 L74,114 L58,112 L44,106 L32,96 L24,82 L22,66 L24,50 L34,36 Z`;
+  let eyes='', mouth='';
+  switch(pm.emoji) {
+    case '⚡':
+      eyes = `<circle cx="50" cy="62" r="7" fill="#000"/><circle cx="90" cy="62" r="7" fill="#000"/><line x1="38" y1="50" x2="58" y2="54" stroke="#000" stroke-width="4" stroke-linecap="square"/><line x1="82" y1="54" x2="102" y2="50" stroke="#000" stroke-width="4" stroke-linecap="square"/>`;
+      mouth = `<rect x="52" y="88" width="36" height="10" rx="3" fill="#000"/>`;
+      break;
+    case '🧐':
+      eyes = `<circle cx="50" cy="64" r="6" fill="#000"/><circle cx="90" cy="64" r="6" fill="#000"/><circle cx="48" cy="62" r="2" fill="#fff"/><circle cx="88" cy="62" r="2" fill="#fff"/><line x1="38" y1="58" x2="58" y2="58" stroke="#000" stroke-width="3" stroke-linecap="square"/><line x1="82" y1="58" x2="102" y2="58" stroke="#000" stroke-width="3" stroke-linecap="square"/>`;
+      mouth = `<line x1="58" y1="90" x2="82" y2="90" stroke="#000" stroke-width="3" stroke-linecap="square"/>`;
+      break;
+    case '🎉':
+      eyes = `<circle cx="50" cy="62" r="6" fill="#000"/><circle cx="90" cy="62" r="6" fill="#000"/><circle cx="48" cy="60" r="2.5" fill="#fff"/><circle cx="88" cy="60" r="2.5" fill="#fff"/>`;
+      mouth = `<path d="M50 84 Q70 102 90 84" fill="none" stroke="#000" stroke-width="3" stroke-linecap="square"/>`;
+      break;
+    default:
+      eyes = `<line x1="42" y1="64" x2="58" y2="64" stroke="#000" stroke-width="4" stroke-linecap="square"/><line x1="82" y1="64" x2="98" y2="64" stroke="#000" stroke-width="4" stroke-linecap="square"/>`;
+      mouth = `<line x1="60" y1="90" x2="80" y2="90" stroke="#000" stroke-width="3" stroke-linecap="square"/>`;
+  }
+  return `<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+    <rect width="140" height="140" fill="#f0f0f0" stroke="#a0a0a0" stroke-width="2"/>
+    <!-- MS Paint toolbar nostalgia: color swatches -->
+    <rect x="8" y="6" width="10" height="10" fill="#ff0000" stroke="#888" stroke-width="1"/>
+    <rect x="20" y="6" width="10" height="10" fill="#00ff00" stroke="#888" stroke-width="1"/>
+    <rect x="32" y="6" width="10" height="10" fill="#0000ff" stroke="#888" stroke-width="1"/>
+    <rect x="44" y="6" width="10" height="10" fill="#ffff00" stroke="#888" stroke-width="1"/>
+    <!-- face: jagged MS Paint style -->
+    <path d="${jaggedCircle}" fill="${b||'#fefce8'}" stroke="#000" stroke-width="4" stroke-linejoin="round"/>
+    ${eyes}
+    ${mouth}
+    <!-- crude hair -->
+    <line x1="42" y1="30" x2="38" y2="20" stroke="#000" stroke-width="4" stroke-linecap="square"/>
+    <line x1="56" y1="26" x2="56" y2="16" stroke="#000" stroke-width="4" stroke-linecap="square"/>
+    <line x1="70" y1="24" x2="70" y2="14" stroke="#000" stroke-width="4" stroke-linecap="square"/>
+    <line x1="84" y1="26" x2="84" y2="16" stroke="#000" stroke-width="4" stroke-linecap="square"/>
+    <line x1="98" y1="30" x2="102" y2="20" stroke="#000" stroke-width="4" stroke-linecap="square"/>
+    <text x="98" y="120" font-size="34" font-family="sans-serif">🍜</text>
+  </svg>`;
+}
+
+// ===== CYBERPUNK STYLE (国际 / globe) =====
+function makeCyber(tm, pm) {
+  const c = tm.color, a = tm.accent;
+  let eyes='', mouth='', hud='';
+  const hexFace = (cx,cy,r) => {
+    const pts = [];
+    for(let i=0;i<6;i++){ const ang = Math.PI/2+i*Math.PI/3; pts.push(`${(cx+r*Math.cos(ang)).toFixed(1)},${(cy-r*Math.sin(ang)).toFixed(1)}`); }
+    return pts.join(' ');
+  };
+  switch(pm.emoji) {
+    case '⚡': // radical - aggressive red
+      eyes = `<polygon points="42,58 56,64 42,70" fill="#ff0040"/><polygon points="98,58 84,64 98,70" fill="#ff0040"/>
+<line x1="36" y1="48" x2="58" y2="54" stroke="#ff0040" stroke-width="2.5"/><line x1="82" y1="54" x2="104" y2="48" stroke="#ff0040" stroke-width="2.5"/>`;
+      mouth = `<polyline points="50,88 70,96 90,88" fill="none" stroke="#ff0040" stroke-width="2.5"/>`;
+      hud = `<text x="15" y="30" font-size="10" fill="#ff0040" font-family="monospace">[AGGRO]</text><line x1="15" y1="34" x2="40" y2="34" stroke="#ff0040" stroke-width="1"/>`;
+      break;
+    case '🧐': // scholar - blue data
+      eyes = `<rect x="42" y="57" width="16" height="12" rx="2" fill="none" stroke="#00d4ff" stroke-width="2"/><rect x="82" y="57" width="16" height="12" rx="2" fill="none" stroke="#00d4ff" stroke-width="2"/>
+<circle cx="50" cy="63" r="4" fill="#00d4ff"/><circle cx="90" cy="63" r="4" fill="#00d4ff"/>
+<circle cx="50" cy="61" r="1.5" fill="#fff"/><circle cx="90" cy="61" r="1.5" fill="#fff"/>`;
+      mouth = `<line x1="58" y1="90" x2="82" y2="90" stroke="#00d4ff" stroke-width="2"/>`;
+      hud = `<text x="10" y="28" font-size="9" fill="#00d4ff" font-family="monospace">DATA_SCAN</text><line x1="10" y1="32" x2="55" y2="32" stroke="#00d4ff" stroke-width="1" opacity=".6"/><text x="10" y="46" font-size="7" fill="#00d4ff" font-family="monospace" opacity=".5">> ANALYZING...</text>`;
+      break;
+    case '🎉': // social - neon pink/cyan nodes
+      eyes = `<circle cx="50" cy="62" r="7" fill="#ff00ff"/><circle cx="50" cy="60" r="3" fill="#fff"/><circle cx="90" cy="62" r="7" fill="#ff00ff"/><circle cx="90" cy="60" r="3" fill="#fff"/>`;
+      mouth = `<path d="M50 84 Q70 102 90 84" fill="none" stroke="#ff00ff" stroke-width="2.5"/>`;
+      hud = `<circle cx="25" cy="40" r="4" fill="none" stroke="#0ff" stroke-width="1.5"/><circle cx="115" cy="40" r="4" fill="none" stroke="#0ff" stroke-width="1.5"/><line x1="29" y1="40" x2="42" y2="55" stroke="#0ff" stroke-width="1" opacity=".5"/><line x1="111" y1="40" x2="98" y2="55" stroke="#0ff" stroke-width="1" opacity=".5"/><text x="85" y="38" font-size="8" fill="#0ff" font-family="monospace">ONLINE</text>`;
+      break;
+    default: // zen - calm purple pulse
+      eyes = `<circle cx="50" cy="63" r="5" fill="#b44dff"/><circle cx="90" cy="63" r="5" fill="#b44dff"/><circle cx="50" cy="61" r="2" fill="#fff"/><circle cx="90" cy="61" r="2" fill="#fff"/>`;
+      mouth = `<path d="M56 88 Q70 96 84 88" fill="none" stroke="#b44dff" stroke-width="2" stroke-linecap="round"/>`;
+      hud = `<text x="12" y="35" font-size="9" fill="#b44dff" font-family="monospace">PEACE.exe</text><circle cx="50" cy="50" r="12" fill="none" stroke="#b44dff" stroke-width="1" opacity=".3"/><circle cx="90" cy="50" r="8" fill="none" stroke="#b44dff" stroke-width=".8" opacity=".2"/>`;
+  }
+  return `<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <linearGradient id="cybg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0a0a1a"/><stop offset="100%" stop-color="#1a0a2e"/></linearGradient>
+    </defs>
+    <rect width="140" height="140" fill="url(#cybg)"/>
+    <!-- grid -->
+    <g opacity=".08">
+      <line x1="0" y1="35" x2="140" y2="35" stroke="#0ff"/><line x1="0" y1="70" x2="140" y2="70" stroke="#0ff"/>
+      <line x1="0" y1="105" x2="140" y2="105" stroke="#0ff"/><line x1="35" y1="0" x2="35" y2="140" stroke="#0ff"/>
+      <line x1="70" y1="0" x2="70" y2="140" stroke="#0ff"/><line x1="105" y1="0" x2="105" y2="140" stroke="#0ff"/>
+    </g>
+    <!-- hex face -->
+    <polygon points="${hexFace(70,72,42)}" fill="#141428" stroke="${a}" stroke-width="2" filter="url(#glow)"/>
+    ${eyes}
+    ${mouth}
+    <!-- cyber nose -->
+    <polygon points="68,72 72,72 70,78" fill="${a}" opacity=".4"/>
+    ${hud}
+    <!-- circuit lines from face -->
+    <line x1="28" y1="72" x2="15" y2="72" stroke="${a}" stroke-width="1" opacity=".5"/>
+    <line x1="112" y1="72" x2="125" y2="72" stroke="${a}" stroke-width="1" opacity=".5"/>
+    <circle cx="15" cy="72" r="2" fill="${a}" opacity=".6"/>
+    <circle cx="125" cy="72" r="2" fill="${a}" opacity=".6"/>
+    <!-- globe emoji with neon frame -->
+    <text x="50" y="125" font-size="30" filter="url(#glow)">🌍</text>
   </svg>`;
 }
 
@@ -502,6 +772,8 @@ function start(){
   typeScores = {spicy:0,fresh:0,meat:0,carb:0,sweet:0,globe:0,easy:0};
   persScores = {radical:0,scholar:0,social:0,zen:0};
   currentQ = 0;
+  // 每题重新洗牌，确保每次测试答案顺序都不固定
+  QUESTIONS.forEach(q => shuffle(q.opts));
   showSc('quiz');
   $('progress-bar').style.display = 'block';
   renderQ();
@@ -566,7 +838,11 @@ function renderResult(tk,pk,r){
   const tm = TYPE_META[tk], pm = PERS_META[pk];
   const tags = r.cuisines.split(' ').map(c => '<span class="cuisine-tag">'+c+'</span>').join('');
   $('rc').innerHTML = `
-    <div class="res-avatar">${makeSvg(tk,pk)}</div>
+    <div class="res-hero">
+      <img class="res-hero-img" src="${AVATAR_IMG[tk+'+'+pk] || AVATAR_IMG[tk] || AVATAR_IMG.easy}" alt="${tm.name}">
+      <div class="res-hero-fade"></div>
+    </div>
+    <div class="res-card">
     <div class="res-name">${r.title}</div>
     <div class="res-tag">${r.tag}</div>
     <div class="res-desc">${r.desc}</div>
@@ -576,6 +852,7 @@ function renderResult(tk,pk,r){
     <div class="btn-group">
       <button class="btn btn-restart" onclick="start()">🔄 再测一次</button>
       <button class="btn btn-share" onclick="shareRes('${tk}','${pk}')">📤 分享结果</button>
+    </div>
     </div>`;
 }
 
