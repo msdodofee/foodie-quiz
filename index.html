@@ -7,6 +7,9 @@
 <meta property="og:title" content="你是哪种吃货？">
 <meta property="og:description" content="24种中外菜系混搭测试，测测你是哪种吃货人格！🔥辣不怕｜🍰甜党｜🍢夜宵王｜🥗佛系淡食... 来测测你的吃货属性！">
 <meta property="og:image" content="https://msdodofee.github.io/foodie-quiz/og-image.png">
+<meta property="og:image:width" content="1408">
+<meta property="og:image:height" content="704">
+<meta property="og:image:alt" content="你是哪种吃货？28种吃货人格测试">
 <meta property="og:url" content="https://msdodofee.github.io/foodie-quiz/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="吃货人格测试">
@@ -39,6 +42,7 @@ html,body{width:100%;min-height:100vh;font-family:-apple-system,BlinkMacSystemFo
 .btn-primary{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;box-shadow:0 4px 16px rgba(217,119,6,.25);margin-top:18px}
 .btn-share{background:linear-gradient(135deg,#10b981,#059669);color:#fff;box-shadow:0 4px 16px rgba(16,185,129,.25)}
 .btn-restart{background:#f5f5f4;color:#57534e}
+.btn-linkcopy{background:#fffbeb;color:#d97706;font-size:12px;font-weight:600;margin-top:10px;border:1.5px solid #fde68a}
 .btn-group{display:flex;gap:8px;margin-top:18px}
 .btn-group .btn{flex:1;margin-top:0}
 
@@ -51,6 +55,11 @@ html,body{width:100%;min-height:100vh;font-family:-apple-system,BlinkMacSystemFo
 /* Questions */
 .q-num{font-size:11px;color:#d97706;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px}
 .q-text{font-size:17px;font-weight:700;line-height:1.5;margin-bottom:18px;color:#292524}
+.quiz-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;min-height:28px}
+.btn-prev{background:none;border:none;color:#a8a29e;font-size:13px;font-weight:600;cursor:pointer;padding:4px 10px;border-radius:8px;transition:all .2s ease;-webkit-tap-highlight-color:transparent;display:inline-flex;align-items:center;gap:3px}
+.btn-prev:active{transform:scale(.95)}
+.btn-prev:hover{color:#d97706;background:#fffbeb}
+.quiz-spacer{flex:1}
 .options{display:flex;flex-direction:column;gap:8px}
 .opt-btn{display:flex;align-items:center;gap:10px;padding:12px 14px;border:2px solid #e7e5e4;border-radius:14px;background:#fff;font-size:14px;cursor:pointer;transition:all .2s ease;text-align:left;color:#44403c;-webkit-tap-highlight-color:transparent}
 .opt-btn:active{transform:scale(.97)}
@@ -131,6 +140,10 @@ html,body{width:100%;min-height:100vh;font-family:-apple-system,BlinkMacSystemFo
       <div class="progress-text" id="pt">1 / 16</div>
     </div>
     <div class="card fadeIn" id="qc">
+      <div class="quiz-topbar">
+        <button class="btn-prev" id="btn-prev" onclick="prevQ()" style="visibility:hidden">← 上一题</button>
+        <span class="quiz-spacer"></span>
+      </div>
       <div class="q-num" id="qn"></div>
       <div class="q-text" id="qt"></div>
       <div class="options" id="qo"></div>
@@ -756,6 +769,7 @@ function makeCyber(tm, pm) {
 // =========== GAME STATE ===========
 let typeScores = {spicy:0,fresh:0,meat:0,carb:0,sweet:0,globe:0,easy:0};
 let persScores = {radical:0,scholar:0,social:0,zen:0};
+let answerHistory = [];
 let currentQ = 0;
 const TQ = QUESTIONS.length;
 
@@ -787,6 +801,7 @@ function confetti(){
 function start(){
   typeScores = {spicy:0,fresh:0,meat:0,carb:0,sweet:0,globe:0,easy:0};
   persScores = {radical:0,scholar:0,social:0,zen:0};
+  answerHistory = [];
   currentQ = 0;
   // 每题重新洗牌，确保每次测试答案顺序都不固定
   QUESTIONS.forEach(q => shuffle(q.opts));
@@ -802,12 +817,18 @@ function renderQ(){
   $('pt').textContent = (currentQ+1)+' / '+TQ;
   $('qn').textContent = '第'+(currentQ+1)+'题';
   $('qt').textContent = q.q;
+  // Show/hide previous button
+  $('btn-prev').style.visibility = currentQ > 0 ? 'visible' : 'hidden';
   const cont = $('qo'); cont.innerHTML = '';
+  const prevAns = answerHistory[currentQ];
   q.opts.forEach((o,i) => {
     const b = document.createElement('button');
     b.className = 'opt-btn';
     b.style.animation = 'fadeIn .35s ease '+i*0.07+'s both';
     b.innerHTML = '<span class="opt-emoji">'+o.e+'</span><span class="opt-label">'+o.t+'</span>';
+    if(prevAns && prevAns.tk === o.tk && prevAns.pk === o.pk) {
+      b.classList.add('selected');
+    }
     b.onclick = () => select(o.tk,o.pk,b);
     cont.appendChild(b);
   });
@@ -815,13 +836,28 @@ function renderQ(){
   requestAnimationFrame(() => { $('qc').style.animation = 'fadeIn .3s ease' });
 }
 function select(tk,pk,btn){
-  document.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
-  btn.classList.add('selected');
+  // If this question was already answered, reverse the old answer
+  const prev = answerHistory[currentQ];
+  if(prev) {
+    typeScores[prev.tk]--; persScores[prev.pk]--;
+  }
+  // Record new answer
+  answerHistory[currentQ] = {tk, pk};
   typeScores[tk]++; persScores[pk]++;
+  // Update UI
+  document.querySelectorAll('.opt-btn').forEach(b => { b.classList.remove('selected'); b.disabled = true; });
+  btn.classList.add('selected');
   setTimeout(()=>{
     currentQ++;
     if(currentQ < TQ) renderQ(); else showResult();
   },350);
+}
+
+// =========== PREVIOUS QUESTION ===========
+function prevQ(){
+  if(currentQ <= 0) return;
+  currentQ--;
+  renderQ();
 }
 
 // =========== SHOW RESULT ===========
@@ -869,31 +905,47 @@ function renderResult(tk,pk,r){
       <button class="btn btn-restart" onclick="start()">🔄 再测一次</button>
       <button class="btn btn-share" onclick="shareRes('${tk}','${pk}')">📤 分享结果</button>
     </div>
+    <button class="btn btn-linkcopy" onclick="copyLinkOnly()">🔗 复制链接（发聊天可显示卡片预览）</button>
     </div>`;
 }
 
-// =========== SHARE (includes URL) ===========
+// =========== SHARE (URL separated from text for link card preview) ===========
+const QUIZ_URL = 'https://msdodofee.github.io/foodie-quiz/';
 function shareRes(tk,pk){
   const key = tk+'_'+pk;
   const r = RESULTS[key] || RESULTS[tk+'_zen'] || RESULTS['easy_zen'];
-  const txt = `🍽️ 我是【${r.title}】——${r.tag}\n\n「${r.quote}」\n\n测测你是哪种吃货？28种人格等你来鉴定！\n👉 https://msdodofee.github.io/foodie-quiz/`;
-  const url = 'https://msdodofee.github.io/foodie-quiz/';
+  const txt = `🍽️ 我是【${r.title}】——${r.tag}\n「${r.quote}」\n快来测测你是哪种吃货！`;
   if(navigator.share){
-    navigator.share({title:'你是哪种吃货？',text:txt,url}).catch(()=>{})
+    // Pass URL separately so platforms can generate link card from OG tags
+    navigator.share({title:'你是哪种吃货？',text:txt,url:QUIZ_URL}).catch(()=>{});
   } else {
-    if(navigator.clipboard){
-      navigator.clipboard.writeText(txt).then(()=>toast('✅ 文案已复制，发给朋友吧！'))
-    } else {
-      const ta = document.createElement('textarea');
-      ta.value = txt;
-      ta.style.cssText = 'position:fixed;left:-9999px';
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-      toast('✅ 文案已复制，发给朋友吧！')
-    }
+    // Fallback: copy text + URL
+    const fullTxt = txt + '\n👉 ' + QUIZ_URL;
+    copyToClipboard(fullTxt);
+    toast('✅ 文案已复制，发给朋友吧！');
   }
+}
+
+function copyLinkOnly(){
+  copyToClipboard(QUIZ_URL);
+  toast('✅ 链接已复制！粘贴到聊天中可显示卡片预览');
+}
+
+function copyToClipboard(text){
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(text).catch(()=>fallbackCopy(text));
+  } else {
+    fallbackCopy(text);
+  }
+}
+function fallbackCopy(text){
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;left:-9999px';
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
 }
 </script>
 </body>
